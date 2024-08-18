@@ -13,6 +13,7 @@ extern struct colour PieceLocation[4];
 extern struct colour BasePiece;
 extern struct colour path[4]; 
 extern struct colour captured[4];
+extern struct colour Home;
 
 extern int block[52];
 

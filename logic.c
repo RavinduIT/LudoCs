@@ -71,32 +71,10 @@ void ChooseFirstPlayer () {
 }
 
 void Move (int location, int roll) {
-	
 
-	if(int x == 1){
-		switch (Player){
-			case 1:	Piece[y].Red += roll;
-				break;
-			case 2: Piece[y].Green += roll;
-				break;
-			case 3: Piece[y].Yellow += roll;
-				break;
-			case 4: Piece[y].Blue += roll;
-				break;
-		}
-	}else if( Path == 0){
-                switch (Player){
-                        case 1: Piece[y].Red -= roll;
-                                break;
-                        case 2: Piece[y].Green -= roll;
-                                break;
-                        case 3: Piece[y].Yellow -= roll;
-                                break;
-                        case 4: Piece[y].Blue -= roll;
-                                break;
-                }
 
-		}	// block ekak unath move kranna
+
+
 }
 
 void BaseToBoard () {
@@ -173,6 +151,8 @@ int Piecelocation (int player, int piece){
 }
 			
 void Capture (int piece, int roll) {
+
+
 	int Basepiece;
 	int location = Piecelocation(Player, piece);
 	int newlocation = location + roll;
@@ -345,7 +325,7 @@ int AI (int roll){
 					choosepiece = (x + 1);
 				}
 			}
-			if(minval != 54){
+			if(minval != 54){                                                      // Red capture if can
 				Capture(choosepiece,roll);
 				if(roll == 6){
 					SixInRow++;
@@ -354,7 +334,7 @@ int AI (int roll){
 				AI(roll);
 			}
 
-			if( roll == 6 && SixInRow <= 2 && BasePiece.Red > 0 )  {
+			if( roll == 6 && SixInRow <= 2 && BasePiece.Red > 0 )  {                    // Red move a piece base to board
 				BaseToBoard();
 				roll = Roll();
 				SixInRow++;
@@ -363,7 +343,7 @@ int AI (int roll){
 
 			for(int y = 1; y <= 4; y++){
 				for(int z = 1; z <= 4; z++){
-					if(PieceLocation[z] != (PieceLocation[y] + roll) && y != z){
+					if(PieceLocation[z].Red != (PieceLocation[y].Red + roll) && y != z){     // Move Red piece but avoid making block 
 						Move(y,roll);
 						PossibleMove++;
 						if(roll == 6){
@@ -373,7 +353,7 @@ int AI (int roll){
 				}
 			}
 			if(PossibleMove == 0){
-				MakeABlock(randpiece(),roll);
+				MakeABlock(randpiece(),roll);                           // if we cant move any Red piece then make a block
 			}
 			SixInRow = 0;
 			break;
@@ -402,7 +382,13 @@ int AI (int roll){
 
 void MakeABlock (int piece, int roll) {
 	
-
+	int currentlocation = Piecelocation(Player,piece);
+	Move(currentlocation, piece);
+	for(int blockpiece = 1; blockpiece <= 4; blockpiece++){
+		if(Piecelocation(Player, blockpiece) == (currentlocation + roll) && blockpiece != piece){
+			
+		}
+	}
 
 }
 
