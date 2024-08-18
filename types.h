@@ -9,7 +9,11 @@ struct colour {
 };
 
 extern struct colour BasePiece;
-extern struct colour Piece[4];
-extern struct colour path;
+extern struct colour PieceLocation[4];
+extern struct colour BasePiece;
+extern struct colour path[4]; 
+extern struct colour captured[4];
+
+extern int block[52];
 
 #endif
