@@ -72,12 +72,14 @@ void ChooseFirstPlayer () {
 }
 
 void Move (int location, int roll) {
-	int movepossible;
-	if(movepossible == 1){
+	
+	if( block[location] > 1){
 		
-	}else{
 
-		return;
+	}
+	else if( block[location] == 1){
+
+
 	}
 
 }
@@ -392,7 +394,85 @@ void MakeABlock (int piece, int roll) {
 	
 	int currentlocation = Piecelocation(Player , piece);
 	int oldblock = block[currentlocation];
+	int newpiecepath;
+	int oldpiecepath;
+	int blockpath;
+
 	block[currentlocation] = 0;
+	block[currentlocation + roll] += oldblock;
+	for(int newpiece = 1; newpiece <= 4; newpiece++){
+		switch (Player){
+			case 1:
+				if(PieceLocation[newpiece].Red == (currentlocation + roll)){
+					newpiecepath = path[newpiece].Red;
+				} 
+				oldpiecepath = path[piece].Red;
+				break;
+			case 2:
+				if(PieceLocation[newpiece].Green == (currentlocation + roll)){
+					newpiecepath = path[newpiece].Green;
+				}                                                                            //  to get new location piece path
+				oldpiecepath = path[piece].Green;
+				break;
+			case 3:
+				if(PieceLocation[newpiece].Yellow == (currentlocation + roll)){
+					newpiecepath = path[newpiece].Yellow;
+				} 
+				oldpiecepath = path[piece].Yellow;
+				break;
+			case 4:
+				if(PieceLocation[newpiece].Blue == (currentlocation + roll)){
+					newpiecepath = path[newpiece].Blue;
+				} 
+				oldpiecepath = path[piece].Blue;
+				break;
+		}
+	}
+
+	if( newpiecepath != oldpiecepath){
+		int hometooldpiece, hometonewpiece;
+		if(oldpiecepath == 0){
+			hometooldpiece = 50 - currentlocation + roll;                                 // to get path of the block 
+			hometonewpiece = currentlocation + roll + 2;
+			if(hometooldpiece > hometonewpiece){
+				blockpath = oldpiecepath;
+			}else{
+				blockpath = newpiecepath;
+			}	
+		}
+	}else {
+		switch (Player) {
+			case 1:
+				blockpath = path[piece].Red;
+				break;
+			case 2:
+				blockpath = path[piece].Green;
+				break;
+			case 3:
+				blockpath = path[piece].Yellow;
+				break;
+			case 4:
+				blockpath = path[piece].Blue;
+				break;
+		}
+	}
+
+
+	switch(Player){
+		case 1:
+			BlockPath[piece].Red = blockpath;
+			break;
+			case 1:
+			BlockPath[piece].Green = blockpath;
+			break;
+			case 1:                                                            // store the data of block path
+			BlockPath[piece].Yellow = blockpath;
+			break;
+			case 1:
+			BlockPath[piece].Blue = blockpath;
+			break;
+			}
+
 	block[currentlocation + roll] += oldblock;
 	Move(currentlocation, roll);
 }
