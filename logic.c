@@ -84,7 +84,7 @@ void Move (int location, int roll) {
 			if(block[location] > 1){
 			int newpiecelocation;
 			PlayerCol(Player);
-			printf(" moves piece ");
+			printf(" piece ");
 			for(int locpiece = 1; locpiece <= 4; locpiece++){
 				switch (Player){						
 					case 1:
@@ -157,16 +157,53 @@ void Move (int location, int roll) {
 							break;
 						}
 					}
-					printf("from location L%d to L%d units in ", location, newpiecelocation);
-					if(location > newpiecelocation){
-						printf("counter-clockwise direction.\n");
-					}else{
-						printf("clockwise direction.\n");
+					printf("is blocked from moving from L%d to L%d by ", location, newpiecelocation);
+					int blockedbyplayer;
+					int blockedbypiece;
+					for(int blockplayer; blockplayer <= 4; blockplayer++){
+					for(int blockedpiece = 1; blockedpiece <= 4;blockedpiece++ ){
+						switch (blockplayer){
+							case 1:
+								if(PieceLocation[blockedpiece].Red == otherblock){
+									blockedbyplayer = blockplayer;
+									blockedbypiece = blockedpiece;
+								}
+									break;
+							case 2:
+								if(PieceLocation[blockedpiece].Green == otherblock){
+									blockedbyplayer = blockplayer;
+									blockedbypiece = blockedpiece;
+								}
+									break;
+							case 3:
+								if(PieceLocation[blockedpiece].Yellow == otherblock){
+									blockedbyplayer = blockplayer;
+									blockedbypiece = blockedpiece;
+								}
+									break;
+							case 4:
+								if(PieceLocation[blockedpiece].Blue == otherblock){
+									blockedbyplayer = blockplayer;
+									blockedbypiece = blockedpiece;
+								}
+									break;
+							}
+						}
 					}
-				}
+				PlayerCol(blockedbyplayer);
+				printf("%d", blockedbypiece);
+			}
+
+			if(block[location] == 1){
+				
+				
 
 			}
-		}else{
+		}
+				
+
+			}
+		else{
 			
 		}
 	
