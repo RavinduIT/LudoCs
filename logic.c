@@ -72,18 +72,111 @@ void ChooseFirstPlayer () {
 }
 
 void Move (int location, int roll) {
-	
-	if( block[location] > 1){
-		
+	int move = roll / block[location];
 
-	}
+
+	for(int otherblock = (location + 1); otherblock >= (location + roll); otherblock++){
+		if(block[otherblock] > block[location]){
+			if(move > abs(otherblock - location)){
+				move = abs(otherblock - location) - 1;
+			}
+
+			if(block[location] > 1){
+			int newpiecelocation;
+			PlayerCol(Player);
+			printf(" moves piece ");
+			for(int locpiece = 1; locpiece <= 4; locpiece++){
+				switch (Player){						
+					case 1:
+						if(PieceLocation[locpiece].Red == location) {
+							if(BlockPath[locpiece].Red == 0){
+								PieceLocation[locpiece].Red += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("R%d, ", locpiece);
+								}else{
+								PieceLocation[locpiece].Red -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("R%d, ", locpiece);
+								}	
+							}
+							break;
+					case 2:
+						if(PieceLocation[locpiece].Green == location) {
+							if(BlockPath[locpiece].Green == 0){
+								PieceLocation[locpiece].Green += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("G%d, ", locpiece);
+								}else{
+								PieceLocation[locpiece].Green -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("G%d, ", locpiece);
+								}	
+							}
+							break;
+					case 3:
+						if(PieceLocation[locpiece].Yellow == location) {
+							if(BlockPath[locpiece].Yellow == 0){
+								PieceLocation[locpiece].Yellow += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("Y%d, ", locpiece);
+								}else{
+								PieceLocation[locpiece].Yellow -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("Y%d, ", locpiece);
+								}	
+							}
+							break;
+					case 4:
+						if(PieceLocation[locpiece].Blue == location) {
+							if(BlockPath[locpiece].Blue == 0){
+								PieceLocation[locpiece].Blue += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("B%d, ", locpiece);
+								}else{
+								PieceLocation[locpiece].Blue -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("B%d, ", locpiece);
+								}	
+							}
+							break;
+						}
+					}
+					printf("from location L%d to L%d units in ", location, newpiecelocation);
+					if(location > newpiecelocation){
+						printf("counter-clockwise direction.\n");
+					}else{
+						printf("clockwise direction.\n");
+					}
+				}
+
+			}
+		}else{
+			
+		}
+	
+
+	
 	else if( block[location] == 1){
 
 
-	}
-
+		}
 }
-
 void BaseToBoard () {
 		switch (Player){
 			case 1 :
