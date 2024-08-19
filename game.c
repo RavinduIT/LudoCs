@@ -15,7 +15,9 @@ int main () {
 	ChooseFirstPlayer();
 
 	while(Game){
-		CurrentRoll = Roll();			
+		CurrentRoll = Roll();
+		PlayerCol(Player);
+		printf(" player rolled %d", CurrentRoll);			
 		AI(CurrentRoll);
 
 		Player++;	
