@@ -5,7 +5,7 @@
 #include "types.h"
 
 int main () {
-	int Game;
+	int Game = 20;
 	int CurrentRoll;
 	srand(time(0));
 
@@ -14,15 +14,16 @@ int main () {
 	ChooseFirstPlayer();
 
 	while(Game){
-		CurrentRoll = Roll();
-		PlayerCol(Player);
-		printf(" player rolled %d", CurrentRoll);			
-		AI(CurrentRoll);
-
-		Player++;	
 		if(Player > 4){
 			Player = 1;
 		}
+		CurrentRoll = Roll();
+		PlayerCol(Player);
+		printf(" player rolled %d.\n", CurrentRoll);			
+		AI(CurrentRoll);
+
+		Player++;
+		Game--;	
 		if(Home.Red == 4 || Home.Green == 4 || Home.Yellow == 4 || Home.Blue == 4){
 			Game = 0;
 		}

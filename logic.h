@@ -2,7 +2,7 @@
 #define LOGIC_H
 
 extern int Player;
-extern int SixInRow = 0;
+extern int SixInRow;
 
 void PlayerCol (int i);
 int Roll ();
