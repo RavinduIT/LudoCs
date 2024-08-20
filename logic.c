@@ -78,10 +78,12 @@ void Move (int location, int roll) {
 	for(int otherblock = (location + 1); otherblock >= (location + roll); otherblock++){
 		if(block[otherblock] > block[location]){
 			if(move > abs(otherblock - location)){
+				PlayerCol(Player);
+				printf("does not have other pieces in the board to move instead of the blocked piece.Moved the piece to square L%d which is the cell before the block.\n", (otherblock - 1));
 				move = abs(otherblock - location) - 1;
 			}
 
-			if(block[location] > 1){
+			if(block[location] > 1){                                                   // block move if there's a block infront of it
 			int newpiecelocation;
 			PlayerCol(Player);
 			printf(" piece ");
@@ -162,57 +164,205 @@ void Move (int location, int roll) {
 					int blockedbypiece;
 					for(int blockplayer; blockplayer <= 4; blockplayer++){
 					for(int blockedpiece = 1; blockedpiece <= 4;blockedpiece++ ){
-						switch (blockplayer){
-							case 1:
-								if(PieceLocation[blockedpiece].Red == otherblock){
+						if(Piecelocation(blockedbyplayer,blockedbypiece) == otherblock){
 									blockedbyplayer = blockplayer;
 									blockedbypiece = blockedpiece;
-								}
-									break;
-							case 2:
-								if(PieceLocation[blockedpiece].Green == otherblock){
-									blockedbyplayer = blockplayer;
-									blockedbypiece = blockedpiece;
-								}
-									break;
-							case 3:
-								if(PieceLocation[blockedpiece].Yellow == otherblock){
-									blockedbyplayer = blockplayer;
-									blockedbypiece = blockedpiece;
-								}
-									break;
-							case 4:
-								if(PieceLocation[blockedpiece].Blue == otherblock){
-									blockedbyplayer = blockplayer;
-									blockedbypiece = blockedpiece;
-								}
-									break;
 							}
 						}
 					}
 				PlayerCol(blockedbyplayer);
-				printf("%d", blockedbypiece);
+				printf("%d\n", blockedbypiece);
 			}
 
-			if(block[location] == 1){
+			if(block[location] == 1){                                                    // piece move if there's a block infront of it
+				int newpiecelocation;
+				PlayerCol(Player);
+				printf(" piece ");
+				for(int movepiece; movepiece <= 4; movepiece++){
+					switch (Player){
+						case 1:
+							if(PieceLocation[movepiece].Red == location) {
+								if(path[movepiece].Red == 0){
+									PieceLocation[movepiece].Red += move;
+									block[location]--;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("R%d ", movepiece);
+									}else{
+									PieceLocation[movepiece].Red -= move;
+									block[location]--;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("R%d ", movepiece);
+									}	
+								}
+								break;
+						case 2:
+							if(PieceLocation[movepiece].Green == location) {
+								if(path[movepiece].Green == 0){
+									PieceLocation[movepiece].Green += move;
+									block[location]--;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("G%d ", movepiece);
+									}else{
+									PieceLocation[movepiece].Green -= move;
+									block[location]--;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("G%d ", movepiece);
+									}	
+								}
+								break;
+						case 3:
+							if(PieceLocation[movepiece].Yellow == location) {
+								if(path[movepiece].Yellow == 0){
+									PieceLocation[movepiece].Yellow += move;
+									block[location]--;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("Y%d ", movepiece);
+									}else{
+									PieceLocation[movepiece].Yellow -= move;
+									block[location]--;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("Y%d ", movepiece);
+									}	
+								}
+								break;
+						case 4:
+							if(PieceLocation[movepiece].Blue == location) {
+								if(path[movepiece].Blue == 0){
+									PieceLocation[movepiece].Blue += move;
+									block[location]--;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("B%d ", movepiece);
+									}else{
+									PieceLocation[movepiece].Blue -= move;
+									block[location]--;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("B%d ", movepiece);
+									}	
+							}
+							break;
+						}
+					}
+				printf("is blocked from moving from L%d to L%d by ", location, newpiecelocation);
+				int blockedbyplayer;
+				int blockedbypiece;
+				for(int blockplayer; blockplayer <= 4; blockplayer++){
+					for(int blockedpiece = 1; blockedpiece <= 4;blockedpiece++ ){
+						if(Piecelocation(blockedbyplayer,blockedbypiece) == otherblock){
+									blockedbyplayer = blockplayer;
+									blockedbypiece = blockedpiece;
+							}
+						}
+					}
+				PlayerCol(blockedbyplayer);
+				printf("%d\n", blockedbypiece);
+
+			}
+
+			if(sa){
+				PlayerCol(Player);
+				printf(" does not have other pieces in the board to move instead of the blocked piece.Ignoring the throw and moving on to the next player.\n");
+			}
+		}
+		else if (block[otherblock] <= block[location]){
+			int newpiecelocation;
+			PlayerCol(Player);
+			printf(" moves piece ");
+			if(block[location] == 1){                                                      // piece move wiithout any block in front of it
+			for(int locationpiece = 1;locationpiece <= 4; locationpiece++){
+				switch(Player) {
+					case 1:
+						if(PieceLocation[locationpiece].Red == location) {
+							if(path[locationpiece].Red == 0){
+								PieceLocation[locationpiece].Red += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("R%d ", locationpiece);
+								}else{
+								PieceLocation[locationpiece].Red -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("R%d ", locationpiece);
+							}	
+						}
+						break;
+					case 2:
+						if(PieceLocation[locationpiece].Green == location) {
+							if(path[locationpiece].Green == 0){
+								PieceLocation[locationpiece].Green += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("G%d ", locationpiece);
+								}else{
+								PieceLocation[locationpiece].Green -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("G%d ", locationpiece);
+							}	
+						}
+						break;
+					case 3:
+						if(PieceLocation[locationpiece].Yellow == location) {
+							if(path[locationpiece].Yellow == 0){
+								PieceLocation[locationpiece].Yellow += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("Y%d ", locationpiece);
+								}else{
+								PieceLocation[locationpiece].Yellow -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("Y%d ", locationpiece);
+							}	
+						}
+						break;
+					case 4:
+						if(PieceLocation[locationpiece].Blue == location) {
+							if(path[locationpiece].Blue == 0){
+								PieceLocation[locationpiece].Blue += move;
+								block[location]--;
+								block[location + move]++;
+								newpiecelocation = location + move;
+								printf("B%d ", locationpiece);
+								}else{
+								PieceLocation[locationpiece].Blue -= move;
+								block[location]--;
+								block[location - move]++;
+								newpiecelocation = location - move;
+								printf("B%d ", locationpiece);
+							}	
+						}
+						break;
+					}
+				}
+				printf("from location L%d to L%d by %d units in ", location, newpiecelocation, move);
+				if(location > newpiecelocation){
+					printf("counter-clockwise direction.\n");
+				}
+				else if(location < newpiecelocation){
+					printf("clockwise direction.\n");
+				}
+			}
+			else if(block[location] > 1){                                                  // block move if there's any block infront of it
 				
-				
+
 
 			}
 		}
-				
-
-			}
-		else{
-			
-		}
-	
-
-	
-	else if( block[location] == 1){
-
-
-		}
+	}
 }
 void BaseToBoard () {
 		switch (Player){
