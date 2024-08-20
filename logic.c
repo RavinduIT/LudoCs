@@ -447,11 +447,11 @@ void Move (int location, int roll) {
 void BaseToBoard () {
 		switch (Player){
 			case 1 :
-					int PiecesBoard = 4 - BasePiece.Red;
+					int PieceBoard = 4 - BasePiece.Red;
 					for(int i = 1; i <= 4; i++){
-						if(Location(1,i) == -1){
+						if(Piecelocation(1,i) == -1){
 							printf("Red player moves piece R%d to the starting point\n", i);
-							printf("Red player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PiecesBoard, BasePiece.Red);
+							printf("Red player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PieceBoard, BasePiece.Red);
 							PieceLocation[i].Red = 26;
 							BasePiece.Red--;
 							HeadTail(i);
@@ -459,11 +459,11 @@ void BaseToBoard () {
 						}
 					}
 			case 2 :
-					int PiecesBoard = 4 - BasePiece.Green;
+					int PieceBoard = 4 - BasePiece.Green;
 					for(int i = 1; i <= 4; i++){
 						if(Location(1,i) == -1){
 							printf("Green player moves piece G%d to the starting point\n", i);
-							printf("Green player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PiecesBoard, BasePiece.Green);
+							printf("Green player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PieceBoard, BasePiece.Green);
 							PieceLocation[i].Green = 39;
 							BasePiece.Green--;
 							HeadTail(i);
@@ -471,11 +471,11 @@ void BaseToBoard () {
 						}
 					}
 			case 3:
-					int PiecesBoard = 4 - BasePiece.Yellow;
+					int PieceBoard = 4 - BasePiece.Yellow;
 					for(int i = 1; i <= 4; i++){
 						if(Location(1,i) == -1){
 							printf("Yellow player moves piece Y%d to the starting point\n", i);
-							printf("Yellow player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PiecesBoard, BasePiece.Yellow);
+							printf("Yellow player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PieceBoard, BasePiece.Yellow);
 							PieceLocation[i].Yellow = 0;
 							BasePiece.Yellow--;
 							HeadTail(i);
@@ -483,11 +483,11 @@ void BaseToBoard () {
 						}
 					}
 			case 4 :
-					int PiecesBoard = 4 - BasePiece.Blue;
+					int PieceBoard = 4 - BasePiece.Blue;
 					for(int i = 1; i <= 4; i++){
 						if(Location(1,i) == -1){
 							printf("Blue player moves piece B%d to the starting point\n", i);
-							printf("Blue player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PiecesBoard, BasePiece.Blue);
+							printf("Blue player now has %d/4 on pieces on the board and %d/4 pieces on the base.",PieceBoard, BasePiece.Blue);
 							PieceLocation[i].Blue = 13;
 							BasePiece.Blue--;
 							HeadTail(i);
@@ -659,7 +659,7 @@ void Reset (int location) {
 
 }
 
-int AI (int roll){
+void AI (int roll){
 
 	if(SixInRow > 2){
 		BreakBlock();
