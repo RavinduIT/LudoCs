@@ -6,7 +6,6 @@
 
 int main () {
 	int Game;
-	int piece;
 	int CurrentRoll;
 	srand(time(0));
 
@@ -22,7 +21,7 @@ int main () {
 
 		Player++;	
 		if(Player > 4){
-			Player == 1;
+			Player = 1;
 		}
 		if(Home.Red == 4 || Home.Green == 4 || Home.Yellow == 4 || Home.Blue == 4){
 			Game = 0;
