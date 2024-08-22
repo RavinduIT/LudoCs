@@ -14,13 +14,14 @@ int main () {
 	ChooseFirstPlayer();
 
 	while(Game){
+		int SixInRow = 0;
 		if(Player > 4){
 			Player = 1;
 		}
 		CurrentRoll = Roll();
 		PlayerCol(Player);
 		printf(" player rolled %d.\n", CurrentRoll);			
-		AI(CurrentRoll);
+		AI(CurrentRoll,SixInRow);
 
 		Player++;
 		Game--;	

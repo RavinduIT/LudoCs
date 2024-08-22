@@ -18,4 +18,5 @@ void MakeABlock (int piece, int roll);
 void HeadTail (int piece);
 int randpiece ();
 void BreakBlock ();
+int CanMakeBlock (int roll);
 #endif

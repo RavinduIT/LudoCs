@@ -644,11 +644,14 @@ void Reset (int location) {
 
 }
 
-void AI (int roll){
-	int SixInRow;
+void AI (int roll, int SixInRow){
 
 	if(SixInRow > 2){
+		PlayerCol(Player);
+		printf(" six rolled for the third consecutive time, the roll is ignored.\n");
 		BreakBlock();
+		PlayerCol(Player);
+		printf(" Break the block.");
 		return;
 	}
 		int PossibleMove = 0;
@@ -686,7 +689,7 @@ void AI (int roll){
 				roll = Roll();
 				PlayerCol(Player);
 				printf(" player rolled %d", roll);
-				AI(roll);
+				AI(roll,SixInRow);
 			}
 
 			if( roll == 6 && SixInRow <= 2 && BasePiece.Red > 0 )  {                    // Red move a piece base to board
@@ -695,7 +698,7 @@ void AI (int roll){
 				PlayerCol(Player);
 				printf(" player rolled %d", roll);
 				SixInRow++;
-				AI(roll);
+				AI(roll,SixInRow);
 			}
 
 			for(int y = 1; y <= 4; y++){
@@ -723,14 +726,14 @@ void AI (int roll){
 				roll = Roll();
 				PlayerCol(Player);
 				printf(" player rolled %d", roll);
-				AI(roll);
+				AI(roll,SixInRow);
 			}else if(roll == 6 && BasePiece.Green > 1){
 				BaseToBoard();
 				SixInRow++;
 				roll = Roll();
 				PlayerCol(Player);
 				printf(" player rolled %d", roll);
-				AI(roll);
+				AI(roll,SixInRow);
 			}else{
 				int randompiece,randompiecelocation,piecehavetomove;
 				for(int loop = 1; loop < 4; loop++){
@@ -746,7 +749,7 @@ void AI (int roll){
 					roll = Roll();
 					PlayerCol(Player);
 					printf(" player rolled %d", roll);
-					AI(roll);
+					AI(roll,SixInRow);
 					}
 				}
 			}
