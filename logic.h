@@ -13,7 +13,7 @@ void BaseToBoard ();
 int Piecelocation (int player, int piece);
 void Capture (int piece, int roll);
 void Reset (int location);
-void AI (int roll);
+void AI (int roll,int SixInRow);
 void MakeABlock (int piece, int roll);
 void HeadTail (int piece);
 int randpiece ();
