@@ -71,7 +71,7 @@ void ChooseFirstPlayer () {
     printf(".\n");   
 }
 
-void Move (int location, int roll) {
+int Move (int location, int roll) {
 	int move = roll / block[location];
 	int havetojump = move;
 
@@ -163,6 +163,7 @@ void Move (int location, int roll) {
 					}
 				PlayerCol(blockedbyplayer);
 				printf("%d\n", blockedbypiece);
+				return 10;
 			}
 
 			if(block[location] == 1){ 
@@ -650,8 +651,6 @@ void AI (int roll, int SixInRow){
 		PlayerCol(Player);
 		printf(" six rolled for the third consecutive time, the roll is ignored.\n");
 		BreakBlock();
-		PlayerCol(Player);
-		printf(" Break the block.");
 		return;
 	}
 		int PossibleMove = 0;
@@ -735,15 +734,17 @@ void AI (int roll, int SixInRow){
 				printf(" player rolled %d", roll);
 				AI(roll,SixInRow);
 			}else{
-				int randompiece,randompiecelocation,piecehavetomove;
-				for(int loop = 1; loop < 4; loop++){
+				int randompiece, randompiecelocation, piecehavetomove, isitblocked;
+				for(int loop = 1; loop <= 4; loop++){
 				randompiece = randpiece();
 				randompiecelocation = PieceLocation[randompiece].Green;
 				if(block[randompiecelocation] == 1 ){
 					piecehavetomove;
 				}
-				Move(PieceLocation[piecehavetomove].Green,roll);
-				SixInRow++;
+				isitblocked = Move(PieceLocation[piecehavetomove].Green,roll);
+				if(isitblocked == 10){
+					BreakBlock();
+				}
 				if(roll == 6){
 					SixInRow++;
 					roll = Roll();
@@ -755,8 +756,14 @@ void AI (int roll, int SixInRow){
 			}
 			break;
 		case 3:
-			
-
+			if(roll == 6 && BasePiece.Yellow > 0 ){
+				BaseToBoard();
+				SixInRow++;
+				roll = Roll();
+				PlayerCol(Player);
+				printf(" player rolled %d", roll);
+				AI(roll,SixInRow);
+			}
 			break;
 
 		case 4:
@@ -913,10 +920,21 @@ void BreakBlock (){
 			}
 		}
 	}
+	PlayerCol(Player);
+	printf(" Break the block.");
 }	
 
 int CanMakeBlock (int roll){
-
+	int block_piece = 0;
+	for(int canmakepiece = 1; canmakepiece <= 4; canmakepiece++){
+		for(int otherpiece = 1; otherpiece <= 4; otherpiece ++){
+			switch (Player) {
+				case 1:
+					if((PieceLocation[canmakepiece].Red + roll) == PieceLocation[otherpiece].Red && canmakepiece != otherpiece){
+						block_piece = canmakepiece;
+					}
+			}
+		}
+	}
 	return block_piece;
-
 }

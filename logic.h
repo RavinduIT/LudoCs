@@ -8,7 +8,7 @@ int Roll ();
 void ChooseFirstPlayer ();
 void SetValues();
 void intro();
-void Move (int location, int roll);
+int Move (int location, int roll);
 void BaseToBoard ();
 int Piecelocation (int player, int piece);
 void Capture (int piece, int roll);
