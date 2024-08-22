@@ -5,7 +5,6 @@
 #include "logic.h"
 
 int Player;
-int SixInRow = 0;
 
 void SetValues (){
 
@@ -646,6 +645,7 @@ void Reset (int location) {
 }
 
 void AI (int roll){
+	int SixInRow;
 
 	if(SixInRow > 2){
 		BreakBlock();
@@ -716,12 +716,43 @@ void AI (int roll){
 			break;
 
 		case 2:
-
-
+			int block_piece = CanMakeBlock(roll);
+			if(roll == 6 && block_piece > 1){
+				MakeABlock(block_piece,roll);
+				SixInRow++;
+				roll = Roll();
+				PlayerCol(Player);
+				printf(" player rolled %d", roll);
+				AI(roll);
+			}else if(roll == 6 && BasePiece.Green > 1){
+				BaseToBoard();
+				SixInRow++;
+				roll = Roll();
+				PlayerCol(Player);
+				printf(" player rolled %d", roll);
+				AI(roll);
+			}else{
+				int randompiece,randompiecelocation,piecehavetomove;
+				for(int loop = 1; loop < 4; loop++){
+				randompiece = randpiece();
+				randompiecelocation = PieceLocation[randompiece].Green;
+				if(block[randompiecelocation] == 1 ){
+					piecehavetomove;
+				}
+				Move(PieceLocation[piecehavetomove].Green,roll);
+				SixInRow++;
+				if(roll == 6){
+					SixInRow++;
+					roll = Roll();
+					PlayerCol(Player);
+					printf(" player rolled %d", roll);
+					AI(roll);
+					}
+				}
+			}
 			break;
-		
 		case 3:
-
+			
 
 			break;
 
@@ -879,5 +910,10 @@ void BreakBlock (){
 			}
 		}
 	}
+}	
+
+int CanMakeBlock (int roll){
+
+	return block_piece;
 
 }

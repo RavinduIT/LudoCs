@@ -2,7 +2,6 @@
 #define LOGIC_H
 
 extern int Player;
-extern int SixInRow;
 
 void PlayerCol (int i);
 int Roll ();
@@ -19,5 +18,4 @@ void MakeABlock (int piece, int roll);
 void HeadTail (int piece);
 int randpiece ();
 void BreakBlock ();
-
 #endif
