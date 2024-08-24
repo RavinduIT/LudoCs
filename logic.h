@@ -2,6 +2,7 @@
 #define LOGIC_H
 
 extern int Player;
+extern int SixInRow;
 
 void PlayerCol (int i);
 int Roll ();
@@ -13,10 +14,11 @@ void BaseToBoard ();
 int Piecelocation (int player, int piece);
 void Capture (int piece, int roll);
 void Reset (int location);
-void AI (int roll,int SixInRow);
+void AI (int roll);
 void MakeABlock (int piece, int roll);
 void HeadTail (int piece);
 int randpiece ();
 void BreakBlock ();
 int CanMakeBlock (int roll);
+int CanCapture (int roll);
 #endif

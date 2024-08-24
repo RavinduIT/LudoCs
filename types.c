@@ -8,5 +8,5 @@ struct colour captured[4];
 struct colour Home;
 struct colour BlockPath[4];
 
-int block[52];
+int block[52] = {0};
 
