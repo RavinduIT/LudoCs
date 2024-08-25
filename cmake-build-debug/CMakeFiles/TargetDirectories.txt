@@ -1,0 +1,3 @@
+C:/Users/Ravindu Lakshan/Desktop/Lodo/LudoCs/cmake-build-debug/CMakeFiles/LudoCs.dir
+C:/Users/Ravindu Lakshan/Desktop/Lodo/LudoCs/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Ravindu Lakshan/Desktop/Lodo/LudoCs/cmake-build-debug/CMakeFiles/rebuild_cache.dir

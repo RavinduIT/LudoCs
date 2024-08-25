@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "types.h"
 #include "logic.h"
 
@@ -10,7 +9,7 @@ int SixInRow;
 void SetValues()
 {
 
-	for (int a = 1; a <= 4; a++)
+	for (int a = 0; a <= 3; a++)
 	{
 		PieceLocation[a].Red = -10;
 		PieceLocation[a].Green = -10;
@@ -31,9 +30,9 @@ void intro()
 	printf("The blue player has four (04) pieces named B1, B2, B3, and B4\n");
 }
 
-void PlayerCol(int i)
+void PlayerCol(int plyer)
 {
-	switch (i)
+	switch (plyer)
 	{
 	case 1:
 		printf("Red");
@@ -57,540 +56,490 @@ int Roll()
 
 void ChooseFirstPlayer()
 {
-	int Maxplayer, Maxroll = 0;
+	int maxplayer = 0, maxroll = 0;
 	for (int i = 1; i <= 4; i++)
 	{
 		int roll = Roll();
 		PlayerCol(i);
 		printf(" rolls %d\n", roll);
-		if (Maxroll < roll)
+		if (maxroll < roll)
 		{
-			Maxplayer = i;
-			Maxroll = roll;
+			maxplayer = i;
+			maxroll = roll;
 		}
 	}
-	Player = Maxplayer;
-	PlayerCol(Maxplayer);
+	Player = maxplayer;
+	PlayerCol(maxplayer);
 	printf(" player has the highest roll and will begin the game.\n");
 	printf("The order of a single round is");
 	for (int i = 1; i <= 4; i++)
 	{
 		printf(", ");
-		if (Maxplayer > 4)
+		if (maxplayer > 4)
 		{
-			Maxplayer = 1;
+			maxplayer = 1;
 		}
-		PlayerCol(Maxplayer);
-		Maxplayer++;
+		PlayerCol(maxplayer);
+		maxplayer++;
 	}
-	Player = Maxplayer;
+	Player = maxplayer;
 	printf(".\n");
 }
 
 int Move(int location, int roll)
 {
-	location = location % 52;
-    int returnval, move, hadablock;
-    if (block[location] > 0)
-    {
-        move = roll / block[location];
-        int havetojump = move;
+	if(location > 51){
+		if(location == 52)
+		location = 0;
+		else if(location == 53)
+		location = 1;
+		else if(location == 54)
+		location = 2;
+		else if(location == 55)
+		location = 3;
+		else if(location == 56)
+		location = 4;
+		else if(location == 57)
+		location = 5;
+	}
+	int returnval = 0;
+	if (block[location] > 0)
+	{
+		int move = 0, hadablock = 0;
+		move = roll / block[location];
+		int havetojump = move;
 
-        for (int otherblock = (location + 1); otherblock <= (location + move); otherblock++)
-        {
-            if (block[otherblock % 52] > block[location])
-            {
-                hadablock = 1;
-                if (move >= abs(otherblock - location))
-                {
-                    move = abs(otherblock - location) - 1;
-                }
+		for (int otherblock = (location + 1); otherblock <= (location + move); otherblock++)
+		{
+			if (block[otherblock] > block[location])
+			{
+				hadablock = 1;
+				if (move >= abs(otherblock - location))
+				{
+					move = abs(otherblock - location) - 1;
+				}
 
-                if (block[location % 52] > 1)
-                { // block move if there's a block infront of it
-                    PlayerCol(Player);
-                    printf(" pieces ");
-                    for (int locpiece = 1; locpiece <= 4; locpiece++)
-                    {
-                        switch (Player)
-                        {
-                        case 1:
-                            if (PieceLocation[locpiece].Red == location)
-                            {
-                                if (BlockPath[locpiece].Red == 0)
-                                {
-                                    PieceLocation[locpiece].Red += move;
-                                    block[location]--;
-                                    block[(location + move) % 52]++;
-                                    printf("R%d, ", locpiece);
-                                }
-                                else if (BlockPath[locpiece].Red == 1)
-                                {
-                                    PieceLocation[locpiece].Red -= move;
-                                    block[location]--;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("R%d, ", locpiece);
-                                }
-                            }
-                            break;
-                        case 2:
-                            if (PieceLocation[locpiece].Green == location)
-                            {
-                                if (BlockPath[locpiece].Green == 0)
-                                {
-                                    PieceLocation[locpiece].Green += move;
-                                    block[location]--;
-                                    block[(location + move) % 52]++;
-                                    printf("G%d, ", locpiece);
-                                }
-                                else if (BlockPath[locpiece].Green == 1)
-                                {
-                                    PieceLocation[locpiece].Green -= move;
-                                    block[location]--;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("G%d, ", locpiece);
-                                }
-                            }
-                            break;
-                        case 3:
-                            if (PieceLocation[locpiece].Yellow == location)
-                            {
-                                if (BlockPath[locpiece].Yellow == 0)
-                                {
-                                    PieceLocation[locpiece].Yellow += move;
-                                    block[location]--;
-                                    block[(location + move) % 52]++;
-                                    printf("Y%d, ", locpiece);
-                                }
-                                else if (BlockPath[locpiece].Yellow == 1)
-                                {
-                                    PieceLocation[locpiece].Yellow -= move;
-                                    block[location]--;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("Y%d, ", locpiece);
-                                }
-                            }
-                            break;
-                        case 4:
-                            if (PieceLocation[locpiece].Blue == location)
-                            {
-                                if (BlockPath[locpiece].Blue == 0)
-                                {
-                                    PieceLocation[locpiece].Blue += move;
-                                    block[location]--;
-                                    block[(location + move) % 52]++;
-                                    printf("B%d, ", locpiece);
-                                }
-                                else if (BlockPath[locpiece].Blue == 1)
-                                {
-                                    PieceLocation[locpiece].Blue -= move;
-                                    block[location]--;
-									if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("B%d, ", locpiece);
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    printf(" is blocked from moving from L%d to L%d by ", location % 52, havetojump % 52);
-                    int blockedbyplayer;
-                    int blockedbypiece;
-                    for (int blockplayer = 1; blockplayer <= 4; blockplayer++)
-                    {
-                        for (int blockedpiece = 1; blockedpiece <= 4; blockedpiece++)
-                        {
-                            if (Piecelocation(blockedbyplayer, blockedbypiece) % 52 == otherblock % 52)
-                            {
-                                blockedbyplayer = blockplayer;
-                                blockedbypiece = blockedpiece;
-                            }
-                        }
-                    }
-                    PlayerCol(blockedbyplayer);
-                    printf("%d\n", blockedbypiece);
-                    return 10;
-                }
+				if (block[location] > 1)
+				{ // block move if there's a block infront of it
+					PlayerCol(Player);
+					printf(" pieces ");
+					for (int locpiece = 1; locpiece <= 4; locpiece++)
+					{
+						switch (Player)
+						{
+						case 1:
+							if (PieceLocation[locpiece - 1].Red == location)
+							{
+								if (BlockPath[locpiece - 1].Red == 0)
+								{
+									PieceLocation[locpiece - 1].Red += move;
+									block[location]--;
+									block[location + move]++;
+									printf("R%d, ", locpiece);
+								}
+								else if (BlockPath[locpiece - 1].Red == 1)
+								{
+									PieceLocation[locpiece - 1].Red -= move;
+									block[location]--;
+									block[location - move]++;
+									printf("R%d, ", locpiece);
+								}
+							}
+							break;
+						case 2:
+							if (PieceLocation[locpiece - 1].Green == location)
+							{
+								if (BlockPath[locpiece - 1].Green == 0)
+								{
+									PieceLocation[locpiece - 1].Green += move;
+									block[location]--;
+									block[location + move]++;
+									printf("G%d, ", locpiece);
+								}
+								else if (BlockPath[locpiece - 1].Green == 1)
+								{
+									PieceLocation[locpiece - 1].Green -= move;
+									block[location]--;
+									block[location - move]++;
+									printf("G%d, ", locpiece);
+								}
+							}
+							break;
+						case 3:
+							if (PieceLocation[locpiece - 1].Yellow == location)
+							{
+								if (BlockPath[locpiece - 1].Yellow == 0)
+								{
+									PieceLocation[locpiece - 1].Yellow += move;
+									block[location]--;
+									block[location + move]++;
+									printf("Y%d, ", locpiece);
+								}
+								else if (BlockPath[locpiece - 1].Yellow == 1)
+								{
+									PieceLocation[locpiece - 1].Yellow -= move;
+									block[location]--;
+									block[location - move]++;
+									printf("Y%d, ", locpiece);
+								}
+							}
+							break;
+						case 4:
+							if (PieceLocation[locpiece - 1].Blue == location)
+							{
+								if (BlockPath[locpiece - 1].Blue == 0)
+								{
+									PieceLocation[locpiece - 1].Blue += move;
+									block[location]--;
+									block[location + move]++;
+									printf("B%d, ", locpiece);
+								}
+								else if (BlockPath[locpiece - 1].Blue == 1)
+								{
+									PieceLocation[locpiece - 1].Blue -= move;
+									block[location]--;
+									block[location - move]++;
+									printf("B%d, ", locpiece);
+								}
+							}
+							break;
+						}
+					}
+					printf(" is blocked from moving from L%d to L%d by ", location, havetojump);
+					int blockedbyplayer = 0;
+					int blockedbypiece = 0;
+					for (int blockplayer = 1; blockplayer <= 4; blockplayer++)
+					{
+						for (int blockedpiece = 1; blockedpiece <= 4; blockedpiece++)
+						{
+							if (Piecelocation(blockedbyplayer, blockedbypiece) == otherblock)
+							{
+								blockedbyplayer = blockplayer;
+								blockedbypiece = blockedpiece;
+							}
+						}
+					}
+					PlayerCol(blockedbyplayer);
+					printf("%d\n", blockedbypiece);
+					return 10;
+				}
 
-                else if (block[location] == 1)
-                {
-                    PlayerCol(Player);
-                    printf(" piece ");
-                    for (int movepiece = 1; movepiece <= 4; movepiece++)
-                    {
-                        switch (Player)
-                        {
-                        case 1:
-                            if (PieceLocation[movepiece].Red == location)
-                            {
-                                if (path[movepiece].Red == 0)
-                                {
-                                    PieceLocation[movepiece].Red += move;
-                                    block[location] = 0;
-                                    block[(location + move) % 52]++;
-                                    printf("R%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Red == 1)
-                                {
-                                    PieceLocation[movepiece].Red -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("R%d ", movepiece);
-                                }
-                            }
-                            break;
-                        case 2:
-                            if (PieceLocation[movepiece].Green == location)
-                            {
-                                if (path[movepiece].Green == 0)
-                                {
-                                    PieceLocation[movepiece].Green += move;
-                                    block[location] = 0;
-                                    block[(location + move) % 52]++;
-                                    printf("G%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Green == 1)
-                                {
-                                    PieceLocation[movepiece].Green -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("G%d ", movepiece);
-                                }
-                            }
-                            break;
-                        case 3:
-                            if (PieceLocation[movepiece].Yellow == location)
-                            {
-                                if (path[movepiece].Yellow == 0)
-                                {
-                                    PieceLocation[movepiece].Yellow += move;
-                                    block[location] = 0;
-                                    block[(location + move) % 52]++;
-                                    printf("Y%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Yellow == 1)
-                                {
-                                    PieceLocation[movepiece].Yellow -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("Y%d ", movepiece);
-                                }
-                            }
-                            break;
-                        case 4:
-                            if (PieceLocation[movepiece].Blue == location)
-                            {
-                                if (path[movepiece].Blue == 0)
-                                {
-                                    PieceLocation[movepiece].Blue += move;
-                                    block[location] = 0;
-                                    block[(location + move)]++;
-                                    printf("B%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Blue == 1)
-                                {
-                                    PieceLocation[movepiece].Blue -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    printf("B%d ", movepiece);
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    printf("is blocked from moving from L%d to L%d by ", location, havetojump % 52);
-                    int blockedbyplayer;
-                    int blockedbypiece;
-                    for (int blockplayer = 1; blockplayer <= 4; blockplayer++)
-                    {
-                        for (int blockedpiece = 1; blockedpiece <= 4; blockedpiece++)
-                        {
-                            if (Piecelocation(blockedbyplayer, blockedbypiece) == otherblock)
-                            {
-                                blockedbyplayer = blockplayer;
-                                blockedbypiece = blockedpiece;
-                            }
-                        }
-                    }
-                    PlayerCol(blockedbyplayer);
-                    printf("%d piece.\n", blockedbypiece);
-                    return 0;
-                }
+				else if (block[location] == 1)
+				{
+					PlayerCol(Player);
+					printf(" piece ");
+					for (int movepiece = 1; movepiece <= 4; movepiece++)
+					{
+						switch (Player)
+						{
+						case 1:
+							if (PieceLocation[movepiece - 1].Red == location)
+							{
+								if (path[movepiece - 1].Red == 0)
+								{
+									PieceLocation[movepiece - 1].Red += move;
+									block[location] = 0;
+									block[location + move]++;
+									printf("R%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Red == 1)
+								{
+									PieceLocation[movepiece - 1].Red -= move;
+									block[location] = 0;
+									block[location - move]++;
+									printf("R%d ", movepiece);
+								}
+							}
+							break;
+						case 2:
+							if (PieceLocation[movepiece - 1].Green == location)
+							{
+								if (path[movepiece - 1].Green == 0)
+								{
+									PieceLocation[movepiece - 1].Green += move;
+									block[location] = 0;
+									block[location + move]++;
+									printf("G%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Green == 1)
+								{
+									PieceLocation[movepiece - 1].Green -= move;
+									block[location] = 0;
+									block[location - move]++;
+									printf("G%d ", movepiece);
+								}
+							}
+							break;
+						case 3:
+							if (PieceLocation[movepiece - 1].Yellow == location)
+							{
+								if (path[movepiece - 1].Yellow == 0)
+								{
+									PieceLocation[movepiece - 1].Yellow += move;
+									block[location] = 0;
+									block[location + move]++;
+									printf("Y%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Yellow == 1)
+								{
+									PieceLocation[movepiece - 1].Yellow -= move;
+									block[location] = 0;
+									block[location - move]++;
+									printf("Y%d ", movepiece);
+								}
+							}
+							break;
+						case 4:
+							if (PieceLocation[movepiece - 1].Blue == location)
+							{
+								if (path[movepiece - 1].Blue == 0)
+								{
+									PieceLocation[movepiece - 1].Blue += move;
+									block[location] = 0;
+									block[location + move]++;
+									printf("B%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Blue == 1)
+								{
+									PieceLocation[movepiece - 1].Blue -= move;
+									block[location] = 0;
+									block[location - move]++;
+									printf("B%d ", movepiece);
+								}
+							}
+							break;
+						}
+					}
+					printf("is blocked from moving from L%d to L%d by ", location, havetojump);
+					int blockedbyplayer = 0;
+					int blockedbypiece = 0;
+					for (int blockplayer = 1; blockplayer <= 4; blockplayer++)
+					{
+						for (int blockedpiece = 1; blockedpiece <= 4; blockedpiece++)
+						{
+							if (Piecelocation(blockedbyplayer, blockedbypiece) == otherblock)
+							{
+								blockedbyplayer = blockplayer;
+								blockedbypiece = blockedpiece;
+							}
+						}
+					}
+					PlayerCol(blockedbyplayer);
+					printf("%d piece.\n", blockedbypiece);
+					return 0;
+				}
 
-                if (abs(otherblock - location) == 0)
-                {
-                    PlayerCol(Player);
-                    printf(" does not have other pieces in the board to move instead of the blocked piece.Ignoring the throw and moving on to the next player.\n");
-                    return 0;
-                }
-                if (otherblock > location)
-                {
-                    printf("does not have other pieces in the board to move instead of the blocked piece.Moved the piece to square L%d which is the cell before the block.\n", (otherblock - 1));
-                }
-                else if (otherblock < location)
-                {
-                    printf("does not have other pieces in the board to move instead of the blocked piece.Moved the piece to square L%d which is the cell before the block.\n", (otherblock + 1));
-                    return 0;
-                }
-            }
+				if (abs(otherblock - location) == 0)
+				{
+					PlayerCol(Player);
+					printf(" does not have other pieces in the board to move instead of the blocked piece.Ignoring the throw and moving on to the next player.\n");
+					return 0;
+				}
+				if (otherblock > location)
+				{
+					printf("does not have other pieces in the board to move instead of the blocked piece.Moved the piece to square L%d which is the cell before the block.\n", (otherblock - 1));
+				}
+				else if (otherblock < location)
+				{
+					printf("does not have other pieces in the board to move instead of the blocked piece.Moved the piece to square L%d which is the cell before the block.\n", (otherblock + 1));
+					return 0;
+				}
+			}
 
-        }
-        if (hadablock == 0)
-            {
-                int newpiecelocation;
-                PlayerCol(Player);
-                printf(" moves piece ");
-                if (block[location] == 1)
-                {
-                    for (int movepiece = 1; movepiece <= 4; movepiece++)
-                    {
-                        switch (Player)
-                        {
-                        case 1:
-                            if (PieceLocation[movepiece].Red == location)
-                            {
-                                if (path[movepiece].Red == 0)
-                                {
-                                    PieceLocation[movepiece].Red += move;
-                                    block[location] = 0;
-                                    block[(location + move) % 52]++;
-                                    newpiecelocation = location + move;
-                                    printf("R%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Red == 1)
-                                {
-                                    PieceLocation[movepiece].Red -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    newpiecelocation = location - move;
-                                    printf("R%d ", movepiece);
-                                }
-                            }
-                            break;
-                        case 2:
-                            if (PieceLocation[movepiece].Green == location)
-                            {
-                                if (path[movepiece].Green == 0)
-                                {
-                                    PieceLocation[movepiece].Green += move;
-                                    block[location] = 0;
-                                    block[(location + move) % 52]++;
-                                    newpiecelocation = location + move;
-                                    printf("G%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Green == 1)
-                                {
-                                    PieceLocation[movepiece].Green -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    newpiecelocation = location - move;
-                                    printf("G%d ", movepiece);
-                                }
-                            }
-                            break;
-                        case 3:
-                            if (PieceLocation[movepiece].Yellow == location)
-                            {
-                                if (path[movepiece].Yellow == 0)
-                                {
-                                    PieceLocation[movepiece].Yellow += move;
-                                    block[location] = 0;
-                                    block[(location + move) % 52]++;
-                                    newpiecelocation = location + move;
-                                    printf("Y%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Yellow == 1)
-                                {
-                                    PieceLocation[movepiece].Yellow -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    newpiecelocation = location - move;
-                                    printf("Y%d ", movepiece);
-                                }
-                            }
-                            break;
-                        case 4:
-                            if (PieceLocation[movepiece].Blue == location)
-                            {
-                                if (path[movepiece].Blue == 0)
-                                {
-                                    PieceLocation[movepiece].Blue += move;
-                                    block[location] = 0;
-                                    block[(location + move) % 52]++;
-                                    newpiecelocation = location + move;
-                                    printf("B%d ", movepiece);
-                                }
-                                else if (BlockPath[movepiece].Blue == 1)
-                                {
-                                    PieceLocation[movepiece].Blue -= move;
-                                    block[location] = 0;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
-                                    newpiecelocation = location - move;
-                                    printf("B%d ", movepiece);
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    printf(" from location L%d to L%d by %d units in ", location, newpiecelocation % 52, move);
-                    if (newpiecelocation > location)
-                    {
-                        printf("clockwise direction\n");
-                    }
-                    else if (newpiecelocation < location)
-                    {
-                        printf("counter-clockwise direction\n");
-                    }
-                    return 0;
-                }
-                else if (block[location] > 1)
-                {
-                    for (int locpiece = 1; locpiece <= 4; locpiece++)
-                    {
-                        switch (Player)
-                        {
-                        case 1:
-                            if (PieceLocation[locpiece].Red == location)
-                            {
-                                if (path[locpiece].Red == 0)
-                                {
-                                    PieceLocation[locpiece].Red += move;
-                                    block[location]--;
-                                    block[(location + move) % 52]++;
-                                    newpiecelocation = location + move;
-                                    printf("R%d, ", locpiece);
-                                }
-                                else if (BlockPath[locpiece].Red == 1)
-                                {
-                                    PieceLocation[locpiece].Red -= move;
-                                    block[location]--;
-                                    if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
+		}
+		if (hadablock == 0)
+			{
+				int newpiecelocation = 0;
+				PlayerCol(Player);
+				printf(" moves piece ");
+				if (block[location] == 1)
+				{
+					for (int movepiece = 1; movepiece <= 4; movepiece++)
+					{
+						switch (Player)
+						{
+						case 1:
+							if (PieceLocation[movepiece - 1].Red == location)
+							{
+								if (path[movepiece - 1].Red == 0)
+								{
+									PieceLocation[movepiece - 1].Red += move;
+									block[location] = 0;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("R%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Red == 1)
+								{
+									PieceLocation[movepiece - 1].Red -= move;
+									block[location] = 0;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("R%d ", movepiece);
+								}
+							}
+							break;
+						case 2:
+							if (PieceLocation[movepiece - 1].Green == location)
+							{
+								if (path[movepiece - 1].Green == 0)
+								{
+									PieceLocation[movepiece - 1].Green += move;
+									block[location] = 0;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("G%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Green == 1)
+								{
+									PieceLocation[movepiece - 1].Green -= move;
+									block[location] = 0;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("G%d ", movepiece);
+								}
+							}
+							break;
+						case 3:
+							if (PieceLocation[movepiece - 1].Yellow == location)
+							{
+								if (path[movepiece - 1].Yellow == 0)
+								{
+									PieceLocation[movepiece - 1].Yellow += move;
+									block[location] = 0;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("Y%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Yellow == 1)
+								{
+									PieceLocation[movepiece - 1].Yellow -= move;
+									block[location] = 0;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("Y%d ", movepiece);
+								}
+							}
+							break;
+						case 4:
+							if (PieceLocation[movepiece - 1].Blue == location)
+							{
+								if (path[movepiece - 1].Blue == 0)
+								{
+									PieceLocation[movepiece - 1].Blue += move;
+									block[location] = 0;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("B%d ", movepiece);
+								}
+								else if (BlockPath[movepiece - 1].Blue == 1)
+								{
+									PieceLocation[movepiece - 1].Blue -= move;
+									block[location] = 0;
+									block[location - move]++;
+									newpiecelocation = location - move;
+									printf("B%d ", movepiece);
+								}
+							}
+							break;
+						}
+					}
+					printf(" from location L%d to L%d by %d units in ", location, newpiecelocation, move);
+					if (newpiecelocation > location)
+					{
+						printf("clockwise direction\n");
+					}
+					else if (newpiecelocation < location)
+					{
+						printf("counter-clockwise direction\n");
+					}
+					return 0;
+				}
+				else if (block[location] > 1)
+				{
+					for (int locpiece = 1; locpiece <= 4; locpiece++)
+					{
+						switch (Player)
+						{
+						case 1:
+							if (PieceLocation[locpiece - 1].Red == location)
+							{
+								if (path[locpiece - 1].Red == 0)
+								{
+									PieceLocation[locpiece - 1].Red += move;
+									block[location]--;
+									block[location + move]++;
+									newpiecelocation = location + move;
+									printf("R%d, ", locpiece);
+								}
+								else if (BlockPath[locpiece - 1].Red == 1)
+								{
+									PieceLocation[locpiece - 1].Red -= move;
+									block[location]--;
+									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("R%d, ", locpiece);
 								}
 							}
 							break;
 						case 2:
-							if (PieceLocation[locpiece].Green == location)
+							if (PieceLocation[locpiece - 1].Green == location)
 							{
-								if (path[locpiece].Green == 0)
+								if (path[locpiece - 1].Green == 0)
 								{
-									PieceLocation[locpiece].Green += move;
+									PieceLocation[locpiece - 1].Green += move;
 									block[location]--;
-									block[(location + move) % 52]++;
+									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("G%d, ", locpiece);
 								}
-								else if (BlockPath[locpiece].Green == 1)
+								else if (BlockPath[locpiece - 1].Green == 1)
 								{
-									PieceLocation[locpiece].Green -= move;
+									PieceLocation[locpiece - 1].Green -= move;
 									block[location]--;
-									if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
+									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("G%d, ", locpiece);
 								}
 							}
 							break;
 						case 3:
-							if (PieceLocation[locpiece].Yellow == location)
+							if (PieceLocation[locpiece - 1].Yellow == location)
 							{
-								if (path[locpiece].Yellow == 0)
+								if (path[locpiece - 1].Yellow == 0)
 								{
-									PieceLocation[locpiece].Yellow += move;
+									PieceLocation[locpiece - 1].Yellow += move;
 									block[location]--;
-									block[(location + move) % 52]++;
+									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("Y%d, ", locpiece);
 								}
-								else if (BlockPath[locpiece].Yellow == 1)
+								else if (BlockPath[locpiece - 1].Yellow == 1)
 								{
-									PieceLocation[locpiece].Yellow -= move;
+									PieceLocation[locpiece - 1].Yellow -= move;
 									block[location]--;
-									if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
+									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("Y%d, ", locpiece);
 								}
 							}
 							break;
 						case 4:
-							if (PieceLocation[locpiece].Blue == location)
+							if (PieceLocation[locpiece - 1].Blue == location)
 							{
-								if (path[locpiece].Blue == 0)
+								if (path[locpiece - 1].Blue == 0)
 								{
-									PieceLocation[locpiece].Blue += move;
+									PieceLocation[locpiece - 1].Blue += move;
 									block[location]--;
-									block[(location + move) % 52]++;
+									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("B%d, ", locpiece);
 								}
-								else if (BlockPath[locpiece].Blue == 1)
+								else if (BlockPath[locpiece - 1].Blue == 1)
 								{
-									PieceLocation[locpiece].Blue -= move;
+									PieceLocation[locpiece - 1].Blue -= move;
 									block[location]--;
-									if((location - move) < 0){
-										block[(location - move + 52) % 52]++;
-									}else{
-                                    block[(location - move) % 52]++;
-									}
+									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("B%d, ", locpiece);
 								}
@@ -598,7 +547,7 @@ int Move(int location, int roll)
 							break;
 						}
 					}
-					printf(" from location L%d to L%d by %d units in ", location, newpiecelocation % 52, move);
+					printf(" from location L%d to L%d by %d units in ", location, newpiecelocation, move);
 					if (newpiecelocation > location)
 					{
 						printf("clockwise direction\n");
@@ -610,24 +559,11 @@ int Move(int location, int roll)
 				}
 			}
 	}
-	for(int i = 1; i <= 4; i++){
-		switch (Player){
-			case 1:
-			PieceLocation[i].Red %= 52;
-			    break;
-			case 2:
-			    PieceLocation[i].Green %= 52;
-				break;
-            case 3:
-			    PieceLocation[i].Yellow %= 52;
-				break;
-			case 4:
-				PieceLocation[i].Blue %= 52;
-				break;
-			}
-		return returnval;
+	if(location > 51) {
+		location %= 52;
 	}
-}		
+	return returnval;
+}
 
 void BaseToBoard()
 {
@@ -636,12 +572,12 @@ void BaseToBoard()
 	case 1:
 		for (int i = 1; i <= 4; i++)
 		{
-			if (PieceLocation[i].Red == -10)
+			if (Piecelocation(1, i) == -10)
 			{
 				BasePiece.Red--;
 				printf("Red player moves piece R%d to the starting point.\n", i);
 				printf("Red player now has %d/4 on pieces on the board and %d/4 pieces on the base.\n", (4 - BasePiece.Red), BasePiece.Red);
-				PieceLocation[i].Red = 26;
+				PieceLocation[i - 1].Red = 26;
 				block[26]++;
 				HeadTail(i);
 				break;
@@ -651,12 +587,12 @@ void BaseToBoard()
 	case 2:
 		for (int i = 1; i <= 4; i++)
 		{
-			if (PieceLocation[i].Green == -10)
+			if (Piecelocation(2, i) == -10)
 			{
 				BasePiece.Green--;
 				printf("Green player moves piece G%d to the starting point.\n", i);
 				printf("Green player now has %d/4 on pieces on the board and %d/4 pieces on the base.\n", (4 - BasePiece.Green), BasePiece.Green);
-				PieceLocation[i].Green = 39;
+				PieceLocation[i - 1].Green = 39;
 				block[39]++;
 				HeadTail(i);
 				break;
@@ -666,12 +602,12 @@ void BaseToBoard()
 	case 3:
 		for (int i = 1; i <= 4; i++)
 		{
-			if (PieceLocation[i].Yellow == -10)
+			if (Piecelocation(3, i) == -10)
 			{
 				BasePiece.Yellow--;
 				printf("Yellow player moves piece Y%d to the starting point.\n", i);
 				printf("Yellow player now has %d/4 on pieces on the board and %d/4 pieces on the base.\n", (4 - BasePiece.Yellow), BasePiece.Yellow);
-				PieceLocation[i].Yellow = 0;
+				PieceLocation[i - 1].Yellow = 0;
 				block[0]++;
 				HeadTail(i);
 				break;
@@ -681,12 +617,12 @@ void BaseToBoard()
 	case 4:
 		for (int i = 1; i <= 4; i++)
 		{
-			if (PieceLocation[i].Blue == -10)
+			if (Piecelocation(4, i) == -10)
 			{
 				BasePiece.Blue--;
 				printf("Blue player moves piece B%d to the starting point.\n", i);
 				printf("Blue player now has %d/4 on pieces on the board and %d/4 pieces on the base.\n", (4 - BasePiece.Blue), BasePiece.Blue);
-				PieceLocation[i].Blue = 13;
+				PieceLocation[i - 1].Blue = 13;
 				block[13]++;
 				HeadTail(i);
 				break;
@@ -698,20 +634,20 @@ void BaseToBoard()
 
 int Piecelocation(int player, int piece)
 {
-	int location;
+	int location = 0;
 	switch (player)
 	{
 	case 1:
-		location = PieceLocation[piece].Red;
+		location = PieceLocation[piece - 1].Red;
 		break;
 	case 2:
-		location = PieceLocation[piece].Green;
+		location = PieceLocation[piece - 1].Green;
 		break;
 	case 3:
-		location = PieceLocation[piece].Yellow;
+		location = PieceLocation[piece - 1].Yellow;
 		break;
 	case 4:
-		location = PieceLocation[piece].Blue;
+		location = PieceLocation[piece - 1].Blue;
 		break;
 	}
 	return location;
@@ -719,8 +655,7 @@ int Piecelocation(int player, int piece)
 
 void Capture(int piece, int roll)
 {
-
-	int Basepiece;
+	int Basepiece = 0;
 	int location = Piecelocation(Player, piece);
 	int newlocation = location + roll;
 
@@ -730,10 +665,11 @@ void Capture(int piece, int roll)
 		printf("Red piece ");
 		for (int p = 1; p <= 4; p++)
 		{
-			if (PieceLocation[p].Red == location)
+			if (PieceLocation[p - 1].Red == location)
 			{
+				Move(location, PieceLocation[p - 1].Red);
 				printf("R%d, ", p);
-				captured[p].Red++;
+				captured[p - 1].Red++;
 			}
 		}
 		printf("lands on square L%d, captures ", newlocation);
@@ -743,10 +679,11 @@ void Capture(int piece, int roll)
 		printf("Green piece ");
 		for (int p = 1; p <= 4; p++)
 		{
-			if (PieceLocation[p].Green == newlocation)
+			if (PieceLocation[p - 1].Green == newlocation)
 			{
+				Move(location, PieceLocation[p - 1].Green);
 				printf("G%d, ", p);
-				captured[p].Green++;
+				captured[p - 1].Green++;
 			}
 		}
 		printf("lands on square L%d, captures ", newlocation);
@@ -756,10 +693,11 @@ void Capture(int piece, int roll)
 		printf("Yellow piece ");
 		for (int p = 1; p <= 4; p++)
 		{
-			if (PieceLocation[p].Yellow == newlocation)
+			if (PieceLocation[p - 1].Yellow == newlocation)
 			{
+				Move(location, PieceLocation[p - 1].Yellow);
 				printf("Y%d, ", p);
-				captured[p].Yellow++;
+				captured[p - 1].Yellow++;
 			}
 		}
 		printf("lands on square L%d, captures ", location);
@@ -769,16 +707,17 @@ void Capture(int piece, int roll)
 		printf("piece ");
 		for (int p = 1; p <= 4; p++)
 		{
-			if (PieceLocation[p].Blue == newlocation)
+			if (PieceLocation[p - 1].Blue == newlocation)
 			{
+				Move(location, PieceLocation[p - 1].Blue);
 				printf("B%d, ", p);
-				captured[p].Blue++;
+				captured[p - 1].Blue++;
 			}
 		}
 		printf("lands on square L%d, captures ", newlocation);
 		break;
 	}
-	int capplayer;
+	int capplayer = 0;
 	for (capplayer = 1; capplayer <= 4; capplayer++)
 	{
 		if (newlocation == Piecelocation(capplayer, 1) || newlocation == Piecelocation(capplayer, 2) || newlocation == Piecelocation(capplayer, 3) || newlocation == Piecelocation(capplayer, 4))
@@ -838,48 +777,48 @@ void Reset(int location)
         case 1:
             for (int s = 1; s <= 4; s++)
             {
-                if (PieceLocation[s].Red == location)
+                if (PieceLocation[s - 1].Red == location)
                 {
-                    PieceLocation[s].Red = -10;
-                    captured[s].Red = 0;
+                    PieceLocation[s - 1].Red = -10;
+                    captured[s - 1].Red = 0;
                     BasePiece.Red++;
-                    path[s].Red = -1;
+                    path[s - 1].Red = -1;
                 }
             }
             break; 
         case 2:
             for (int s = 1; s <= 4; s++)
             {
-                if (PieceLocation[s].Green == location)
+                if (PieceLocation[s - 1].Green == location)
                 {
-                    PieceLocation[s].Green = -10;
-                    captured[s].Green = 0;
+                    PieceLocation[s - 1].Green = -10;
+                    captured[s - 1].Green = 0;
                     BasePiece.Green++;
-                    path[s].Green = -1;
+                    path[s - 1].Green = -1;
                 }
             }
             break; 
         case 3:
             for (int s = 1; s <= 4; s++)
             {
-                if (PieceLocation[s].Yellow == location)
+                if (PieceLocation[s - 1].Yellow == location)
                 {
-                    PieceLocation[s].Yellow = -10;
-                    captured[s].Yellow = 0;
+                    PieceLocation[s - 1].Yellow = -10;
+                    captured[s - 1].Yellow = 0;
                     BasePiece.Yellow++;
-                    path[s].Yellow = -1;
+                    path[s - 1].Yellow = -1;
                 }
             }
             break; 
         case 4:
             for (int s = 1; s <= 4; s++)
             {
-                if (PieceLocation[s].Blue == location)
+                if (PieceLocation[s - 1].Blue == location)
                 {
-                    PieceLocation[s].Blue = -10;
-                    captured[s].Blue = 0;
+                    PieceLocation[s - 1].Blue = -10;
+                    captured[s - 1].Blue = 0;
                     BasePiece.Blue++;
-                    path[s].Blue = -1;
+                    path[s - 1].Blue = -1;
                 }
             }
             break; 
@@ -900,26 +839,26 @@ void AI(int roll)
 	switch (Player)
 	{
 
-	case 1:
-	{
-		int PossibleMove = 0;
+	case 1: {
 		int cancapture[4] = {55, 55, 55, 55};
-		int minval = 54;
-		int choosepiece;
+		int minval = 55;
+		int choosepiece = 0;
 		for (int c = 1; c <= 4; c++)
 		{
-			int location = (PieceLocation[c].Red + roll);
+			int location = (PieceLocation[c - 1].Red + roll);
 			for (int d = 1; d <= 4; d++)
 			{
-				if ((location == PieceLocation[d].Green || location == PieceLocation[d].Yellow || location == PieceLocation[d].Blue) && (block[location - roll] >= block[location]))
+				if ((location == PieceLocation[d - 1].Green || location == PieceLocation[d - 1].Yellow || location == PieceLocation[d - 1].Blue) && (block[location - roll] >= block[location]))
 				{
-					if (path[c].Red == 0)
+					if (path[c - 1].Red == 0)
 					{
 						cancapture[c - 1] = (50 - location);
+						break;
 					}
-					else if (path[c].Red == 1)
+					if (path[c - 1].Red == 1)
 					{
 						cancapture[c - 1] = location + 2;
+						break;
 					}
 				}
 			}
@@ -933,7 +872,7 @@ void AI(int roll)
 				choosepiece = (x + 1);
 			}
 		}
-		if (minval != 54)
+		if (minval != 55 && SixInRow <= 2)
 		{ // Red capture if can
 			Capture(choosepiece, roll);
 			if (roll == 6)
@@ -946,7 +885,7 @@ void AI(int roll)
 			AI(roll);
 		}
 
-		if (roll == 6 && SixInRow <= 2 && BasePiece.Red > 0)
+		else if (roll == 6 && SixInRow <= 2 && BasePiece.Red > 0 && SixInRow <= 2)
 		{ // Red move a piece base to board
 			BaseToBoard();
 			roll = Roll();
@@ -955,42 +894,68 @@ void AI(int roll)
 			SixInRow++;
 			AI(roll);
 		}
-
-		for (int y = 1; y <= 4; y++)
-		{
-			for (int Piecerd = 1; Piecerd <= 4; Piecerd++)
+		else if (SixInRow <= 2 && BasePiece.Red < 4) {
+			int PossibleMove = 0;
+			for (int y = 1; y <= 4; y++)
 			{
-				if ((PieceLocation[Piecerd].Red != (PieceLocation[y].Red + roll)) && (y != Piecerd))
-				{ // Move Red piece but avoid making block
-					Move(y, roll);
-					PossibleMove++;
+				for (int Piecerd = 1; Piecerd <= 4; Piecerd++)
+				{
+					if ((PieceLocation[Piecerd - 1].Red != (PieceLocation[y - 1].Red + roll)) && (y != Piecerd) && PieceLocation[Piecerd - 1].Red >= 0)
+					{ // Move Red piece but avoid making block
+						Move(PieceLocation[y - 1].Red, roll);
+						PossibleMove++;
+						if (roll == 6)
+						{
+							SixInRow++;
+							roll = Roll();
+							PlayerCol(Player);
+							printf(" player rolled %d.\n", roll);
+							AI(roll);
+						}
+						break;
+					}
+				}
+				if(PossibleMove == 1) {
+					break;
+				}
+			}
+			if (PossibleMove == 0)
+			{
+				int theblockpice = CanMakeBlock(roll);
+				if( theblockpice > 0) {
+					MakeABlock(PieceLocation[theblockpice - 1].Red, roll);
+					Move(PieceLocation[theblockpice - 1].Red, roll);
 					if (roll == 6)
 					{
 						SixInRow++;
+						roll = Roll();
+						PlayerCol(Player);
+						printf(" player rolled %d.\n", roll);
+						AI(roll);
 					}
+				}else {
+					SixInRow = 0;
+					return;
 				}
 			}
 		}
-		if (PossibleMove == 0)
-		{
-			MakeABlock(PieceLocation[randpiece()].Red, roll);
-		}
 		SixInRow = 0;
-		break;
 	}
+		break;
 	case 2:
 	{
 		int block_piece = CanMakeBlock(roll);
-		if (roll == 6 && block_piece > 1)
-		{
-			MakeABlock(block_piece, roll);
-			SixInRow++;
-			roll = Roll();
-			PlayerCol(Player);
-			printf(" player rolled %d.\n", roll);
-			AI(roll);
-		}
-		else if (roll == 6 && BasePiece.Green > 1)
+		if (roll == 6 && block_piece > 0 && BasePiece.Green < 4)
+			{
+				MakeABlock(block_piece, roll);
+				SixInRow++;
+				roll = Roll();
+				PlayerCol(Player);
+				printf(" player rolled %d.\n", roll);
+				AI(roll);
+			}
+
+		else if (roll == 6 && BasePiece.Green > 0)
 		{
 			BaseToBoard();
 			SixInRow++;
@@ -1001,16 +966,15 @@ void AI(int roll)
 		}
 		else
 		{
-			int randompiece, randompiecelocation, piecehavetomove, isitblocked;
-			for (int loop = 1; loop <= 4; loop++)
-			{
-				randompiece = randpiece();
-				randompiecelocation = PieceLocation[randompiece].Green;
-				if (block[randompiecelocation] == 1)
+			int randompiecelocation = 0, piecehavetomove = 0, isitblocked = 0;
+			for (int loop = 1; loop <= 4; loop++) {
+				randompiecelocation = PieceLocation[loop - 1].Green;
+				if (block[randompiecelocation] >= 1)
 				{
-					piecehavetomove = randompiece;
+					piecehavetomove = loop;
 				}
-				isitblocked = Move(PieceLocation[piecehavetomove].Green, roll);
+			}
+				isitblocked = Move(PieceLocation[piecehavetomove - 1].Green, roll);
 				if (isitblocked == 10)
 				{
 					BreakBlock();
@@ -1022,9 +986,9 @@ void AI(int roll)
 					PlayerCol(Player);
 					printf(" player rolled %d.\n", roll);
 					AI(roll);
-				}
 			}
 		}
+		SixInRow = 0;
 		break;
 	}
 	case 3:
@@ -1054,28 +1018,29 @@ void AI(int roll)
 			}
 			else
 			{
-				int thepiece;
-				int hometolocation = 55;
+				int thepiece = 0;
+
 				for (int closetohome = 1; closetohome <= 4; closetohome++)
 				{
-					if (path[closetohome].Yellow == 0)
+					int hometolocation = 55;
+					if (path[closetohome - 1].Yellow == 0)
 					{
-						if (hometolocation > (52 - PieceLocation[closetohome].Yellow) && PieceLocation[closetohome].Yellow > 0 )
+						if (hometolocation > (52 - PieceLocation[closetohome - 1].Yellow) && PieceLocation[closetohome - 1].Yellow > 0 )
 						{
 							thepiece = closetohome;
 						}
 					}
-					else if (path[closetohome].Yellow == 1)
+					else if (path[closetohome - 1].Yellow == 1)
 					{
-						if (hometolocation > (2 + PieceLocation[closetohome].Yellow) && PieceLocation[closetohome].Yellow > 0)
+						if (hometolocation > (2 + PieceLocation[closetohome - 1].Yellow) && PieceLocation[closetohome - 1].Yellow > 0)
 						{
 							thepiece = closetohome;
 						}
 					}
 				}
-				if (thepiece > 0 && thepiece <= 4)
+				if (thepiece > 0)
 				{
-					Move(PieceLocation[thepiece].Yellow, roll);
+					Move(PieceLocation[thepiece - 1].Yellow, roll);
 					if (roll == 6)
 					{
 						SixInRow++;
@@ -1087,6 +1052,7 @@ void AI(int roll)
 				}
 			}
 		}
+		SixInRow = 0;
 		break;
 
 	case 4:
@@ -1100,52 +1066,52 @@ void MakeABlock(int piece, int roll)
 
 	int currentlocation = Piecelocation(Player, piece);
 	int oldblock = block[currentlocation];
-	int newpiecepath;
-	int oldpiecepath;
-	int blockpath;
+	int newpiecepath = 0;
+	int oldpiecepath = 0;
+	int blockpath = 0;
 
-	block[currentlocation] = 0;
-	block[currentlocation + roll] += oldblock;
+	block[currentlocation % 52] = 0;
+	block[(currentlocation + roll) % 52] += oldblock;
 	for (int newpiece = 1; newpiece <= 4; newpiece++)
 	{
 		switch (Player)
 		{
 		case 1:
-			if (PieceLocation[newpiece].Red == (currentlocation + roll))
+			if (PieceLocation[newpiece - 1].Red == (currentlocation + roll))
 			{
-				newpiecepath = path[newpiece].Red;
+				newpiecepath = path[newpiece - 1].Red;
 			}
-			oldpiecepath = path[piece].Red;
+			oldpiecepath = path[piece-1].Red;
 			break;
 		case 2:
-			if (PieceLocation[newpiece].Green == (currentlocation + roll))
+			if (PieceLocation[newpiece - 1].Green == (currentlocation + roll))
 			{
-				newpiecepath = path[newpiece].Green;
+				newpiecepath = path[newpiece - 1].Green;
 			} //  to get new location piece path
-			oldpiecepath = path[piece].Green;
+			oldpiecepath = path[piece - 1].Green;
 			break;
 		case 3:
-			if (PieceLocation[newpiece].Yellow == (currentlocation + roll))
+			if (PieceLocation[newpiece - 1].Yellow == (currentlocation + roll))
 			{
-				newpiecepath = path[newpiece].Yellow;
+				newpiecepath = path[newpiece- 1 ].Yellow;
 			}
-			oldpiecepath = path[piece].Yellow;
+			oldpiecepath = path[piece - 1].Yellow;
 			break;
 		case 4:
-			if (PieceLocation[newpiece].Blue == (currentlocation + roll))
+			if (PieceLocation[newpiece - 1].Blue == (currentlocation + roll))
 			{
-				newpiecepath = path[newpiece].Blue;
+				newpiecepath = path[newpiece - 1].Blue;
 			}
-			oldpiecepath = path[piece].Blue;
+			oldpiecepath = path[piece - 1].Blue;
 			break;
 		}
 	}
 
 	if (newpiecepath != oldpiecepath)
 	{
-		int hometooldpiece, hometonewpiece;
 		if (oldpiecepath == 0)
 		{
+			int hometooldpiece = 0, hometonewpiece = 0;
 			hometooldpiece = 50 - currentlocation + roll; // to get path of the block
 			hometonewpiece = currentlocation + roll + 2;
 			if (hometooldpiece > hometonewpiece)
@@ -1163,16 +1129,16 @@ void MakeABlock(int piece, int roll)
 		switch (Player)
 		{
 		case 1:
-			blockpath = path[piece].Red;
+			blockpath = path[piece - 1].Red;
 			break;
 		case 2:
-			blockpath = path[piece].Green;
+			blockpath = path[piece - 1].Green;
 			break;
 		case 3:
-			blockpath = path[piece].Yellow;
+			blockpath = path[piece - 1].Yellow;
 			break;
 		case 4:
-			blockpath = path[piece].Blue;
+			blockpath = path[piece - 1].Blue;
 			break;
 		}
 	}
@@ -1180,27 +1146,27 @@ void MakeABlock(int piece, int roll)
 	switch (Player)
 	{
 	case 1:
-		BlockPath[piece].Red = blockpath;
+		BlockPath[piece - 1].Red = blockpath;
 		break;
 	case 2:
-		BlockPath[piece].Green = blockpath;
+		BlockPath[piece - 1].Green = blockpath;
 		break;
 	case 3: // store the data of block path
-		BlockPath[piece].Yellow = blockpath;
+		BlockPath[piece - 1].Yellow = blockpath;
 		break;
 	case 4:
-		BlockPath[piece].Blue = blockpath;
+		BlockPath[piece - 1].Blue = blockpath;
 		break;
 	}
 
-	block[currentlocation + roll] += oldblock;
+	block[(currentlocation + roll) % 52] += oldblock;
 	Move(currentlocation, roll);
 }
 
 void HeadTail(int piece)
 {
 
-	int headtail = ((rand() % 2)); //  0 = clockwise  1 = counterwise
+	int headtail = ((rand() % 2));   //  0 = clockwise  1 = counterwise.
 	switch (Player)
 	{
 	case 1:
@@ -1233,30 +1199,30 @@ void BreakBlock()
 			switch (Player)
 			{
 			case 1:
-				if (PieceLocation[blockpiece1].Red == PieceLocation[blockpiece2].Red && blockpiece1 != blockpiece2)
+				if (PieceLocation[blockpiece1 - 1].Red == PieceLocation[blockpiece2 - 1].Red && blockpiece1 != blockpiece2)
 				{
-					int breakblocklocation = PieceLocation[blockpiece1].Red;
+					int breakblocklocation = PieceLocation[blockpiece1 - 1].Red;
 					block[breakblocklocation] = 1;
 				}
 				break;
 			case 2:
-				if (PieceLocation[blockpiece1].Green == PieceLocation[blockpiece2].Green && blockpiece1 != blockpiece2)
+				if (PieceLocation[blockpiece1 - 1].Green == PieceLocation[blockpiece2 - 1].Green && blockpiece1 != blockpiece2)
 				{
-					int breakblocklocation = PieceLocation[blockpiece1].Green;
+					int breakblocklocation = PieceLocation[blockpiece1 - 1].Green;
 					block[breakblocklocation] = 1;
 				}
 				break;
 			case 3:
-				if (PieceLocation[blockpiece1].Yellow == PieceLocation[blockpiece2].Yellow && blockpiece1 != blockpiece2)
+				if (PieceLocation[blockpiece1 - 1].Yellow == PieceLocation[blockpiece2 - 1].Yellow && blockpiece1 != blockpiece2)
 				{
-					int breakblocklocation = PieceLocation[blockpiece1].Yellow;
+					int breakblocklocation = PieceLocation[blockpiece1 - 1].Yellow;
 					block[breakblocklocation] = 1;
 				}
 				break;
 			case 4:
-				if (PieceLocation[blockpiece1].Blue == PieceLocation[blockpiece2].Blue && blockpiece1 != blockpiece2)
+				if (PieceLocation[blockpiece1 - 1].Blue == PieceLocation[blockpiece2 - 1].Blue && blockpiece1 != blockpiece2)
 				{
-					int breakblocklocation = PieceLocation[blockpiece1].Blue;
+					int breakblocklocation = PieceLocation[blockpiece1 - 1].Blue;
 					block[breakblocklocation] = 1;
 				}
 				break;
@@ -1277,22 +1243,22 @@ int CanMakeBlock(int roll)
 			switch (Player)
 			{
 			case 1:
-				if ((PieceLocation[canmakepiece].Red + roll) == PieceLocation[otherpiece].Red && canmakepiece != otherpiece)
+				if ((PieceLocation[canmakepiece - 1].Red + roll) == PieceLocation[otherpiece - 1].Red && canmakepiece != otherpiece)
 				{
 					block_piece = canmakepiece;
 				}
 			case 2:
-				if ((PieceLocation[canmakepiece].Green + roll) == PieceLocation[otherpiece].Green && canmakepiece != otherpiece)
+				if ((PieceLocation[canmakepiece - 1].Green + roll) == PieceLocation[otherpiece - 1].Green && canmakepiece != otherpiece)
 				{
 					block_piece = canmakepiece;
 				}
 			case 3:
-				if ((PieceLocation[canmakepiece].Yellow + roll) == PieceLocation[otherpiece].Yellow && canmakepiece != otherpiece)
+				if ((PieceLocation[canmakepiece - 1].Yellow + roll) == PieceLocation[otherpiece - 1].Yellow && canmakepiece != otherpiece)
 				{
 					block_piece = canmakepiece;
 				}
 			case 4:
-				if ((PieceLocation[canmakepiece].Blue + roll) == PieceLocation[otherpiece].Blue && canmakepiece != otherpiece)
+				if ((PieceLocation[canmakepiece - 1].Blue + roll) == PieceLocation[otherpiece - 1].Blue && canmakepiece != otherpiece)
 				{
 					block_piece = canmakepiece;
 				}
@@ -1304,7 +1270,7 @@ int CanMakeBlock(int roll)
 
 int CanCapture(int roll)
 {
-	int cancapture;
+	int cancapture = 0;
 	for (int cappiece = 1; cappiece <= 4; cappiece++)
 	{
 		switch (Player)
@@ -1314,19 +1280,19 @@ int CanCapture(int roll)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Red + roll;
-					if (caploc == PieceLocation[othercap].Green || caploc == PieceLocation[othercap].Yellow || caploc == PieceLocation[othercap].Blue)
+					int caploc = PieceLocation[cappiece - 1].Red + roll;
+					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue)
 					{
 						cancapture = cappiece;
 					}
 				}
 			}
-			if (path->Red == 0)
+			if (path->Red == 1)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Red - roll;
-					if (caploc == PieceLocation[othercap].Green || caploc == PieceLocation[othercap].Yellow || caploc == PieceLocation[othercap].Blue)
+					int caploc = PieceLocation[cappiece - 1].Red - roll;
+					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue)
 					{
 						cancapture = cappiece;
 					}
@@ -1338,19 +1304,19 @@ int CanCapture(int roll)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Green + roll;
-					if (caploc == PieceLocation[othercap].Red || caploc == PieceLocation[othercap].Yellow || caploc == PieceLocation[othercap].Blue)
+					int caploc = PieceLocation[cappiece -1 ].Green + roll;
+					if (caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue)
 					{
 						cancapture = cappiece;
 					}
 				}
 			}
-			if (path->Green == 0)
+			if (path->Green == 1)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Green - roll;
-					if (caploc == PieceLocation[othercap].Red || caploc == PieceLocation[othercap].Yellow || caploc == PieceLocation[othercap].Blue)
+					int caploc = PieceLocation[cappiece - 1].Green - roll;
+					if (caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue)
 					{
 						cancapture = cappiece;
 					}
@@ -1362,19 +1328,19 @@ int CanCapture(int roll)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Yellow + roll;
-					if (caploc == PieceLocation[othercap].Green || caploc == PieceLocation[othercap].Red || caploc == PieceLocation[othercap].Blue)
+					int caploc = PieceLocation[cappiece - 1].Yellow + roll;
+					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue)
 					{
 						cancapture = cappiece;
 					}
 				}
 			}
-			if (path->Yellow == 0)
+			if (path->Yellow == 1)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Yellow - roll;
-					if (caploc == PieceLocation[othercap].Green || caploc == PieceLocation[othercap].Red || caploc == PieceLocation[othercap].Blue)
+					int caploc = PieceLocation[cappiece - 1].Yellow - roll;
+					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue)
 					{
 						cancapture = cappiece;
 					}
@@ -1386,19 +1352,19 @@ int CanCapture(int roll)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Blue + roll;
-					if (caploc == PieceLocation[othercap].Green || caploc == PieceLocation[othercap].Yellow || caploc == PieceLocation[othercap].Red)
+					int caploc = PieceLocation[cappiece - 1].Blue + roll;
+					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red)
 					{
 						cancapture = cappiece;
 					}
 				}
 			}
-			if (path->Blue == 0)
+			if (path->Blue == 1)
 			{
 				for (int othercap = 1; othercap <= 4; othercap++)
 				{
-					int caploc = PieceLocation[cappiece].Blue - roll;
-					if (caploc == PieceLocation[othercap].Green || caploc == PieceLocation[othercap].Yellow || caploc == PieceLocation[othercap].Red)
+					int caploc = PieceLocation[cappiece - 1].Blue - roll;
+					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red)
 					{
 						cancapture = cappiece;
 					}

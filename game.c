@@ -4,33 +4,36 @@
 #include "logic.h"
 #include "types.h"
 
-int main () {
+int main()
+{
 	int Game = 100;
-	int CurrentRoll;
 	srand(time(0));
 
-	SetValues();  // set values to starting point
+	SetValues(); // set values to starting point
 	intro();
 	ChooseFirstPlayer();
 
-	while(Game){
+	while (Game)
+	{
 		SixInRow = 0;
-		if(Player > 4){
+		if (Player > 4)
+		{
 			Player = 1;
 		}
-		CurrentRoll = Roll();
+		int CurrentRoll = Roll();
 		PlayerCol(Player);
-		printf(" player rolled %d.\n", CurrentRoll);			
+		printf(" player rolled %d.\n", CurrentRoll);
 		AI(CurrentRoll);
 
 		Player++;
-		Game--;	
-		if(Home.Red == 4 || Home.Green == 4 || Home.Yellow == 4 || Home.Blue == 4){
+		Game--;
+		if (Home.Red == 4 || Home.Green == 4 || Home.Yellow == 4 || Home.Blue == 4)
+		{
 			Game = 0;
 		}
 	}
 	PlayerCol(Player);
 	printf(" Won the game !");
-    
-    return 0;
+
+	return 0;
 }
