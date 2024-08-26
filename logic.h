@@ -22,4 +22,5 @@ void BreakBlock();
 int CanMakeBlock(int roll);
 int CanCapture(int roll);
 void summury();
+void makeBlockX ();
 #endif

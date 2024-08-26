@@ -93,18 +93,9 @@ void ChooseFirstPlayer()
 int Move(int location, int roll)
 {
 	if(location > 51){
-		if(location == 52)
-		location = 0;
-		else if(location == 53)
-		location = 1;
-		else if(location == 54)
-		location = 2;
-		else if(location == 55)
-		location = 3;
-		else if(location == 56)
-		location = 4;
-		else if(location == 57)
-		location = 5;
+		location -= 52;
+	}else if(location < 0) {
+		location += 52;
 	}
 	int returnval = 0;
 	if (block[location] > 0)
@@ -139,9 +130,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Red += move;
 									if(PieceLocation[locpiece - 1].Red > 51) {
 										PieceLocation[locpiece - 1].Red -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									printf("R%d, ", locpiece);
 								}
 								else if (BlockPath[locpiece - 1].Red == 1)
@@ -149,9 +143,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Red -= move;
 									if(PieceLocation[locpiece - 1].Red < 0) {
 										PieceLocation[locpiece - 1].Red += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									printf("R%d, ", locpiece);
 								}
 							}
@@ -164,9 +161,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Green += move;
 									if(PieceLocation[locpiece - 1].Green > 51) {
 										PieceLocation[locpiece - 1].Green -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									printf("G%d, ", locpiece);
 								}
 								else if (BlockPath[locpiece - 1].Green == 1)
@@ -174,9 +174,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Green -= move;
 									if(PieceLocation[locpiece - 1].Green < 0) {
 										PieceLocation[locpiece - 1].Green += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									printf("G%d, ", locpiece);
 								}
 							}
@@ -189,9 +192,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Yellow += move;
 									if(PieceLocation[locpiece - 1].Yellow > 51) {
 										PieceLocation[locpiece - 1].Yellow -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									printf("Y%d, ", locpiece);
 								}
 								else if (BlockPath[locpiece - 1].Yellow == 1)
@@ -199,9 +205,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Yellow -= move;
 									if(PieceLocation[locpiece - 1].Yellow < 0) {
 										PieceLocation[locpiece - 1].Yellow += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									printf("Y%d, ", locpiece);
 								}
 							}
@@ -214,9 +223,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Blue += move;
 									if(PieceLocation[locpiece - 1].Blue > 51) {
 										PieceLocation[locpiece - 1].Blue -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									printf("B%d, ", locpiece);
 								}
 								else if (BlockPath[locpiece - 1].Blue == 1)
@@ -224,9 +236,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Blue -= move;
 									if(PieceLocation[locpiece - 1].Blue < 0) {
 										PieceLocation[locpiece - 1].Blue += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									printf("B%d, ", locpiece);
 								}
 							}
@@ -267,9 +282,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Red += move;
 									if(PieceLocation[movepiece - 1].Red > 51) {
 										PieceLocation[movepiece - 1].Red -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									printf("R%d ", movepiece);
 								}
 								else if (path[movepiece - 1].Red == 1)
@@ -277,9 +295,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Red -= move;
 									if(PieceLocation[movepiece - 1].Red < 0) {
 										PieceLocation[movepiece - 1].Red += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									printf("R%d ", movepiece);
 								}
 							}
@@ -292,9 +313,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Green += move;
 									if(PieceLocation[movepiece - 1].Green > 51) {
 										PieceLocation[movepiece - 1].Green -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									printf("G%d ", movepiece);
 								}
 								else if (path[movepiece - 1].Green == 1)
@@ -302,9 +326,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Green -= move;
 									if(PieceLocation[movepiece - 1].Green < 0) {
 										PieceLocation[movepiece - 1].Green += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									printf("G%d ", movepiece);
 								}
 							}
@@ -317,9 +344,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Yellow += move;
 									if(PieceLocation[movepiece - 1].Yellow > 51) {
 										PieceLocation[movepiece - 1].Yellow -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									printf("Y%d ", movepiece);
 								}
 								else if (path[movepiece - 1].Yellow == 1)
@@ -327,9 +357,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Yellow -= move;
 									if(PieceLocation[movepiece - 1].Yellow < 0) {
 										PieceLocation[movepiece - 1].Yellow += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									printf("Y%d ", movepiece);
 								}
 							}
@@ -342,9 +375,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Blue += move;
 									if(PieceLocation[movepiece - 1].Blue > 51) {
 										PieceLocation[movepiece - 1].Blue -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									printf("B%d ", movepiece);
 								}
 								else if (path[movepiece - 1].Blue == 1)
@@ -352,9 +388,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Blue -= move;
 									if(PieceLocation[movepiece - 1].Blue < 0) {
 										PieceLocation[movepiece - 1].Blue += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									printf("B%d ", movepiece);
 								}
 							}
@@ -418,9 +457,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Red += move;
 									if(PieceLocation[locpiece - 1].Red > 51) {
 										PieceLocation[locpiece - 1].Red -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("R%d, ", locpiece);
 								}
@@ -429,9 +471,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Red -= move;
 									if(PieceLocation[locpiece - 1].Blue < 0) {
 										PieceLocation[locpiece - 1].Blue += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("R%d, ", locpiece);
 								}
@@ -445,9 +490,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Green += move;
 									if(PieceLocation[locpiece - 1].Green > 51) {
 										PieceLocation[locpiece - 1].Green -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("G%d, ", locpiece);
 								}
@@ -456,9 +504,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Green -= move;
 									if(PieceLocation[locpiece - 1].Blue < 0) {
 										PieceLocation[locpiece - 1].Blue += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("G%d, ", locpiece);
 								}
@@ -472,9 +523,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Yellow += move;
 									if(PieceLocation[locpiece - 1].Yellow > 51) {
 										PieceLocation[locpiece - 1].Yellow -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("Y%d, ", locpiece);
 								}
@@ -483,9 +537,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Yellow -= move;
 									if(PieceLocation[locpiece - 1].Blue < 0) {
 										PieceLocation[locpiece - 1].Blue += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("Y%d, ", locpiece);
 								}
@@ -499,9 +556,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Blue += move;
 									if(PieceLocation[locpiece - 1].Blue > 51) {
 										PieceLocation[locpiece - 1].Blue -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location]--;
+										block[location + move]++;
 									}
-									block[location]--;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("B%d, ", locpiece);
 								}
@@ -510,9 +570,12 @@ int Move(int location, int roll)
 									PieceLocation[locpiece - 1].Blue -= move;
 									if(PieceLocation[locpiece - 1].Blue < 0) {
 										PieceLocation[locpiece - 1].Blue += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location]--;
+										block[location - move]++;
 									}
-									block[location]--;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("B%d, ", locpiece);
 								}
@@ -544,9 +607,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Red += move;
 									if(PieceLocation[movepiece - 1].Red > 51) {
 										PieceLocation[movepiece - 1].Red -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("R%d ", movepiece);
 								}
@@ -555,9 +621,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Red -= move;
 									if(PieceLocation[movepiece - 1].Red < 0) {
 										PieceLocation[movepiece - 1].Red += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("R%d ", movepiece);
 								}
@@ -571,9 +640,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Green += move;
 									if(PieceLocation[movepiece - 1].Green > 51) {
 										PieceLocation[movepiece - 1].Green -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("G%d ", movepiece);
 								}
@@ -582,9 +654,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Green -= move;
 									if(PieceLocation[movepiece - 1].Green < 0) {
 										PieceLocation[movepiece - 1].Green += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("G%d ", movepiece);
 								}
@@ -598,9 +673,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Yellow += move;
 									if(PieceLocation[movepiece - 1].Yellow > 51) {
 										PieceLocation[movepiece - 1].Yellow -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("Y%d ", movepiece);
 								}
@@ -609,9 +687,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Yellow -= move;
 									if(PieceLocation[movepiece - 1].Yellow < 0) {
 										PieceLocation[movepiece - 1].Yellow += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("Y%d ", movepiece);
 								}
@@ -625,9 +706,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Blue += move;
 									if(PieceLocation[movepiece - 1].Blue > 51) {
 										PieceLocation[movepiece - 1].Blue -= 52;
+										block[location] = 0;
+										block[(location - move) - 52]++;
+									}else {
+										block[location] = 0;
+										block[location + move]++;
 									}
-									block[location] = 0;
-									block[location + move]++;
 									newpiecelocation = location + move;
 									printf("B%d ", movepiece);
 								}
@@ -636,9 +720,12 @@ int Move(int location, int roll)
 									PieceLocation[movepiece - 1].Blue -= move;
 									if(PieceLocation[movepiece - 1].Blue < 0) {
 										PieceLocation[movepiece - 1].Blue += 52;
+										block[location] = 0;
+										block[(location - move) + 52]++;
+									}else {
+										block[location] = 0;
+										block[location - move]++;
 									}
-									block[location] = 0;
-									block[location - move]++;
 									newpiecelocation = location - move;
 									printf("B%d ", movepiece);
 								}
@@ -660,7 +747,9 @@ int Move(int location, int roll)
 			}
 	}
 	if(location > 51) {
-		location %= 52;
+		location -= 52;
+	}else if( location < 0) {
+		location += 52;
 	}
 	return returnval;
 }
@@ -1027,7 +1116,7 @@ void AI(int roll)
 				}
 			}
 			if(basetoboardpiece > 0) {
-				MakeABlock(basetoboardpiece, roll);
+				makeBlockX();
 			}else {
 				BaseToBoard();
 			}
@@ -1043,7 +1132,7 @@ void AI(int roll)
 			{
 				for (int Piecerd = 1; Piecerd <= 4; Piecerd++)
 				{
-					if ((PieceLocation[Piecerd - 1].Red != (PieceLocation[y - 1].Red + roll)) && (y != Piecerd) && PieceLocation[Piecerd - 1].Red >= 0)
+					if ((PieceLocation[Piecerd - 1].Red != (PieceLocation[y - 1].Red + roll)) && (y != Piecerd) && PieceLocation[y - 1].Red >= 0)
 					{ // Move Red piece but avoid making block
 						Move(PieceLocation[y - 1].Red, roll);
 						PossibleMove++;
@@ -1102,13 +1191,13 @@ void AI(int roll)
 		{
 			int basetoboardpiece = 0;
 			for(int k = 1; k <= 4; k++) {
-				if(PieceLocation[k - 1].Green == 39) {
+				if(PieceLocation[k - 1].Red == 26) {
 					basetoboardpiece = BaseToBoard();
 					break;
 				}
 			}
 			if(basetoboardpiece > 0) {
-				MakeABlock(basetoboardpiece, roll);
+				makeBlockX();
 			}else {
 				BaseToBoard();
 			}
@@ -1150,13 +1239,13 @@ void AI(int roll)
 		{
 			int basetoboardpiece = 0;
 			for(int k = 1; k <= 4; k++) {
-				if(PieceLocation[k - 1].Yellow == 0) {
+				if(PieceLocation[k - 1].Red == 26) {
 					basetoboardpiece = BaseToBoard();
 					break;
 				}
 			}
 			if(basetoboardpiece > 0) {
-				MakeABlock(basetoboardpiece, roll);
+				makeBlockX();
 			}else {
 				BaseToBoard();
 			}
@@ -1581,4 +1670,31 @@ void summury () {
 	}
 	printf("---------------------------------------\n");
 
+}
+
+void makeBlockX () {
+	for( int pieceX = 1; pieceX <= 4; pieceX++) {
+		switch (Player) {
+			case 1:
+				if (PieceLocation[pieceX - 1].Red == 26) {
+					path[pieceX - 1].Red = -1;
+					BlockPath[pieceX - 1].Red = 0;
+				}
+			case 2:
+				if (PieceLocation[pieceX - 1].Green == 39) {
+					path[pieceX - 1].Green = -1;
+					BlockPath[pieceX - 1].Green = 0;
+				}
+			case 3:
+				if (PieceLocation[pieceX - 1].Yellow == 0) {
+					path[pieceX - 1].Yellow = -1;
+					BlockPath[pieceX - 1].Yellow = 0;
+				}
+			case 4:
+				if (PieceLocation[pieceX - 1].Blue == 13) {
+					path[pieceX - 1].Blue = -1;
+					BlockPath[pieceX - 1].Blue = 0;
+				}
+		}
+	}
 }
