@@ -10,7 +10,7 @@ void ChooseFirstPlayer();
 void SetValues();
 void intro();
 int Move(int location, int roll);
-void BaseToBoard();
+int BaseToBoard();
 int Piecelocation(int player, int piece);
 void Capture(int piece, int roll);
 void Reset(int location);
@@ -21,4 +21,5 @@ int randpiece();
 void BreakBlock();
 int CanMakeBlock(int roll);
 int CanCapture(int roll);
+void summury();
 #endif
