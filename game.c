@@ -6,7 +6,7 @@
 
 int main()
 {
-	int Game = 500;
+	int Game = 100;
 	int round = 1;
 	srand(time(0));
 	setbuf(stdout, 0);
