@@ -3,6 +3,7 @@
 
 extern int Player;
 extern int SixInRow;
+extern int bluepiece;
 
 void PlayerCol(int i);
 int Roll();
@@ -10,7 +11,7 @@ void ChooseFirstPlayer();
 void SetValues();
 void intro();
 int Move(int location, int roll);
-int BaseToBoard();
+void BaseToBoard();
 int Piecelocation(int player, int piece);
 void Capture(int piece, int roll);
 void Reset(int location);
