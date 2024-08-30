@@ -6,8 +6,7 @@
 
 int main()
 {
-	int Game = 100;
-	int round = 1;
+	int Game = 1, round = 1;
 	srand(time(0));
 	setbuf(stdout, 0);
 	SetValues(); // set values to starting point
@@ -32,16 +31,18 @@ int main()
 		AI(CurrentRoll);
 
 		Player++;
-		Game--;
 		if (startPlayer == Player) {
 			printf("\n");
 			summury();
+			for(int i = 0; i <= 51; i++) {
+			printf(" %d.\t", block[i]);
 		}
-		if (Home.Red == 4 || Home.Green == 4 || Home.Yellow == 4 || Home.Blue == 4)
+	}
+		}
+		if (GotHome.Red == 4 || GotHome.Green == 4 || GotHome.Yellow == 4 || GotHome.Blue == 4)
 		{
 			Game = 0;
 		}
-	}
 	PlayerCol(Player);
 	printf(" Won the game !\n");
 
