@@ -25,4 +25,5 @@ int CanCapture(int roll);
 void summury();
 void makeBlockX ();
 int piecepath (int location);
+void enterHomeStraight (int roll);
 #endif
