@@ -25,5 +25,5 @@ int CanCapture(int roll);
 void summary();
 void makeBlockX ();
 int piecepath (int location);
-void enterHomeStraight (int roll);
+int enterHomeStraight (int roll);
 #endif

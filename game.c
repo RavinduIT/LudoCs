@@ -14,8 +14,7 @@ int main()
 	ChooseFirstPlayer();
 	printf("\n");
 	int startPlayer = Player;
-	while (Game)
-	{
+	while (Game) {
 		if(startPlayer == Player) {
 			printf("\n\t----Round %d---- \n", round);
 			round++;
@@ -35,16 +34,15 @@ int main()
 			printf("\n");
 			summary();
 			for(int i = 0; i <= 51; i++) {
-			printf(" %d.%d\t",i, block[i]);
-		}
-	}
+				printf(" %d.%d\t",i, block[i]);
+			}
 		}
 		if (GotHome.Red == 4 || GotHome.Green == 4 || GotHome.Yellow == 4 || GotHome.Blue == 4)
 		{
 			Game = 0;
 		}
-	PlayerCol(Player);
-	printf(" Won the game !\n");
-
+	}
+		PlayerCol(Player - 1);
+		printf(" Won the game !\n");
 	return 0;
 }
