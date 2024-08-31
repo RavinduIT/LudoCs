@@ -146,6 +146,11 @@ int Move(int location, int roll)
 						move = 51 - move;
 					}
 				}
+				int can_canpture = CanCapture(move);
+				if (can_canpture) {
+					CanCapture(move);
+					break;
+				}
 
 				if (block[location] > 1)
 				{                                                               // block move if there's a block infront of it
@@ -1301,16 +1306,17 @@ void AI(int roll)
 					PlayerCol(Player);
 					printf(" player rolled %d.\n", roll);
 					AI(roll);
+					break;
 				}
 			for (int y = 1; y <= 4; y++)
 			{
-				if(block_piece != y) {
+				if(block_piece > 0 && block_piece != y) {
 					Move(PieceLocation[y - 1].Red, roll);
 					PossibleMove++;
 					break;
 				}
 			}
-			if (PossibleMove == 0) {
+			if (PossibleMove == 0 && block_piece > 0) {
 				MakeABlock(block_piece, roll);
 			}
 			if (roll == 6) {
@@ -1329,7 +1335,7 @@ void AI(int roll)
 		if(BasePiece.Green < 4) {
 			block_piece = CanMakeBlock(roll);
 		}
-		if (roll == 6 && block_piece > 0 && BasePiece.Green < 4)
+		if(roll == 6 && block_piece > 0 && BasePiece.Green < 4)
 			{
 				MakeABlock(block_piece, roll);
 				roll = Roll();
@@ -1410,15 +1416,15 @@ void AI(int roll)
 					int hometolocation = 55;
 					if (path[closetohome - 1].Yellow == 0)
 					{
-						if (hometolocation > (52 - PieceLocation[closetohome - 1].Yellow) && PieceLocation[closetohome - 1].Yellow >= 0 )
+						if (hometolocation > (50 - PieceLocation[closetohome - 1].Yellow) && PieceLocation[closetohome - 1].Yellow >= 0 )
 						{
 							thepiece = closetohome;
-							hometolocation = 52 - PieceLocation[closetohome - 1].Yellow;
+							hometolocation = 50 - PieceLocation[closetohome - 1].Yellow;
 						}
 					}
 					else if (path[closetohome - 1].Yellow == 1)
 					{
-						if (hometolocation > (2 + PieceLocation[closetohome - 1].Yellow) && PieceLocation[closetohome - 1].Yellow >= 0)
+						if (hometolocation > (2+ PieceLocation[closetohome - 1].Yellow) && PieceLocation[closetohome - 1].Yellow >= 0)
 						{
 							thepiece = closetohome;
 							hometolocation = 2 + PieceLocation[closetohome - 1].Yellow;
@@ -1427,13 +1433,13 @@ void AI(int roll)
 				}
 				int theblockpiece = CanMakeBlock(roll);
 				int cancaptureY = CanCapture(roll);
-				if (cancaptureY > 0 && thepiece == cancaptureY) {
+				if (cancaptureY > 0) {
 					Capture(cancaptureY, roll);
 					roll = Roll();
 					PlayerCol(Player);
 					printf(" player rolled %d.\n", roll);
 					AI(roll);
-				}else if(theblockpiece > 0 && thepiece == thepiece) {
+				}else if(theblockpiece > 0 && theblockpiece == thepiece) {
 					MakeABlock(theblockpiece, roll);
 					break;
 				}
