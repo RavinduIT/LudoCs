@@ -104,23 +104,19 @@ void ChooseFirstPlayer()
 
 int Move(int location, int roll)
 {
+	int returnval = 0;
 	if(location > 51){
 		location -= 52;
 	}else if(location < 0) {
 		location += 52;
 	}
-	int returnval = 0;
 	if (block[location] > 0)
 	{
 		int move = 0, hadablock = 0;
-		if(block[location] > 1) {
-		move = roll / block[location];
-		}else {
-			move = roll;
-		}
 		int havetojump = move;
 		int otherblock = 0;
 		short thepath = piecepath(location);
+		move = roll / block[location];
 		if(thepath == 0) {
 			otherblock = location + 1;
 		}else {
@@ -1016,7 +1012,6 @@ void Capture(int piece, int roll) {
 	}else if(newlocationmin < 0) {
 		newlocationmin += 52;
 	}
-	int wheretorest = -1;
 	switch (Player) {
 		case 1:
 			printf("Red ");
@@ -1027,7 +1022,6 @@ void Capture(int piece, int roll) {
 				{
 					printf("R%d, ", p);
 					captured[p - 1].Red++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] > 1 && BlockPath[p - 1].Red == 1 && PieceLocation[p - 1].Red == newlocationmin) {
@@ -1035,23 +1029,20 @@ void Capture(int piece, int roll) {
 				{
 					printf("R%d, ", p);
 					captured[p - 1].Red++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}else if(block[location] == 1 && path[p - 1].Red == 0) {
 				if (PieceLocation[p - 1].Red == location)
 				{
-					printf("R%d, ", p);
+					printf("R%d ", p);
 					captured[p - 1].Red++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] == 1 && path[p - 1].Red == 1) {
 				if (PieceLocation[p - 1].Red == location)
 				{
-					printf("R%d, ", p);
+					printf("R%d ", p);
 					captured[p - 1].Red++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}
@@ -1067,7 +1058,6 @@ void Capture(int piece, int roll) {
 				{
 					printf("G%d, ", p);
 					captured[p - 1].Green++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] > 1 && BlockPath[p - 1].Green == 1) {
@@ -1075,23 +1065,20 @@ void Capture(int piece, int roll) {
 				{
 					printf("G%d, ", p);
 					captured[p - 1].Green++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}else if(block[location] == 1 && path[p - 1].Green == 0) {
 				if (PieceLocation[p - 1].Green == location)
 				{
-					printf("G%d, ", p);
+					printf("G%d ", p);
 					captured[p - 1].Green++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] == 1 && path[p - 1].Green == 1) {
 				if (PieceLocation[p - 1].Green == location)
 				{
-					printf("G%d, ", p);
+					printf("G%d ", p);
 					captured[p - 1].Green++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}
@@ -1107,7 +1094,6 @@ void Capture(int piece, int roll) {
 				{
 					printf("Y%d, ", p);
 					captured[p - 1].Yellow++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] > 1 && BlockPath[p - 1].Yellow == 1) {
@@ -1115,23 +1101,20 @@ void Capture(int piece, int roll) {
 				{
 					printf("Y%d, ", p);
 					captured[p - 1].Yellow++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}else if(block[location] == 1 && path[p - 1].Yellow == 0) {
 				if (PieceLocation[p - 1].Yellow == location)
 				{
-					printf("Y%d, ", p);
+					printf("Y%d ", p);
 					captured[p - 1].Yellow++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] == 1 && path[p - 1].Yellow == 1) {
 				if (PieceLocation[p - 1].Yellow == location)
 				{
-					printf("Y%d, ", p);
+					printf("Y%d ", p);
 					captured[p - 1].Yellow++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}
@@ -1147,7 +1130,6 @@ void Capture(int piece, int roll) {
 				{
 					printf("B%d, ", p);
 					captured[p - 1].Blue++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] > 1 && BlockPath[p - 1].Blue == 1) {
@@ -1155,23 +1137,20 @@ void Capture(int piece, int roll) {
 				{
 					printf("B%d, ", p);
 					captured[p - 1].Blue++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}else if(block[location] == 1 && path[p - 1].Blue == 0) {
 				if (PieceLocation[p - 1].Blue == location)
 				{
-					printf("B%d, ", p);
+					printf("B%d ", p);
 					captured[p - 1].Blue++;
-					wheretorest = 0;
 					newlocation = newlocationplus;
 				}
 			}else if(block[location] == 1 && path[p - 1].Blue == 1) {
 				if (PieceLocation[p - 1].Blue == location)
 				{
-					printf("B%d, ", p);
+					printf("B%d ", p);
 					captured[p - 1].Blue++;
-					wheretorest = 1;
 					newlocation = newlocationmin;
 				}
 			}
@@ -1179,11 +1158,7 @@ void Capture(int piece, int roll) {
 		printf("piece lands on square L%d and captures ", newlocation);
 		break;
 	}
-		if(wheretorest == 0) {
-			Reset(newlocationplus);
-		}else if(wheretorest == 1) {
-			Reset(newlocationmin);
-		}
+		Reset(newlocation);
 		Move(location, roll);
 }
 void Reset(int location)
@@ -1443,7 +1418,7 @@ void AI(int roll)
 					MakeABlock(theblockpiece, roll);
 					break;
 				}
-			else{
+				else if(thepiece > 0){
 					Move(PieceLocation[thepiece - 1].Yellow, roll);
 					if (roll == 6)
 					{
