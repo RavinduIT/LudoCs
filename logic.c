@@ -1834,7 +1834,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1847,7 +1847,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1860,7 +1860,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1873,7 +1873,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Red] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1889,7 +1889,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1902,7 +1902,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1915,7 +1915,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1928,7 +1928,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Green] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1943,7 +1943,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1956,7 +1956,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1969,7 +1969,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1982,7 +1982,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Red || caploc == PieceLocation[othercap - 1].Blue) && block[PieceLocation[cappiece - 1].Yellow] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -1998,7 +1998,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red) && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -2011,7 +2011,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red) && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -2024,7 +2024,7 @@ int CanCapture(int roll)
 					if(caploc > 51) {
 						caploc -= 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red) && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -2037,7 +2037,7 @@ int CanCapture(int roll)
 					if(caploc < 0) {
 						caploc += 52;
 					}
-					if (caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
+					if ((caploc == PieceLocation[othercap - 1].Green || caploc == PieceLocation[othercap - 1].Yellow || caploc == PieceLocation[othercap - 1].Red) && block[PieceLocation[cappiece - 1].Blue] >= block[caploc])
 					{
 						cancapture = cappiece;
 					}
@@ -2144,6 +2144,7 @@ int piecepath (int location) {
 					if(PieceLocation[piecex - 1].Yellow == location && path[piecex - 1].Yellow == 1) {
 						returnpath = 1;
 					}
+				break;
 				case 4:
 					if (PieceLocation[piecex - 1].Blue == location && path[piecex - 1].Blue == 1) {
 						returnpath = 1;

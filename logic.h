@@ -22,7 +22,7 @@ int randpiece();
 void BreakBlock();
 int CanMakeBlock(int roll);
 int CanCapture(int roll);
-void summury();
+void summary();
 void makeBlockX ();
 int piecepath (int location);
 void enterHomeStraight (int roll);

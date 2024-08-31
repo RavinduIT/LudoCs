@@ -33,7 +33,7 @@ int main()
 		Player++;
 		if (startPlayer == Player) {
 			printf("\n");
-			summury();
+			summary();
 			for(int i = 0; i <= 51; i++) {
 			printf(" %d.%d\t",i, block[i]);
 		}
