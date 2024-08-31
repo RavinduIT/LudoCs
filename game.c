@@ -33,9 +33,9 @@ int main()
 		if (startPlayer == Player) {
 			printf("\n");
 			summary();
-			for(int i = 0; i <= 51; i++) {
-				printf(" %d.%d\t",i, block[i]);
-			}
+			//for(int i = 0; i <= 51; i++) {
+			//	printf(" %d.%d\t",i, block[i]);
+			//}
 		}
 		if (GotHome.Red == 4 || GotHome.Green == 4 || GotHome.Yellow == 4 || GotHome.Blue == 4)
 		{
