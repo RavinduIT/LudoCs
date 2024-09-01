@@ -18,7 +18,6 @@ void Reset(int location);
 void AI(int roll);
 void MakeABlock(int piece, int roll);
 void HeadTail(int piece);
-int randpiece();
 void BreakBlock();
 int CanMakeBlock(int roll);
 int CanCapture(int roll);
