@@ -104,14 +104,6 @@ void ChooseFirstPlayer()
 
 int Move(int location, int roll)
 {
-	if (location > 51)
-	{
-		location -= 52;
-	}
-	else if (location < 0)
-	{
-		location += 52;
-	}
 	if (block[location] > 0)
 	{
 		int move = 0, hadablock = 0;
@@ -133,14 +125,7 @@ int Move(int location, int roll)
 		}
 		for (int run4times = 1; run4times <= move; run4times++)
 		{
-			if (otherblock > 51)
-			{
-				otherblock -= 52;
-			}
-			else if (otherblock < 0)
-			{
-				otherblock += 52;
-			}
+			otherblock = (otherblock + 52) % 52;
 			if (block[otherblock] > block[location]) 										// check if there are any block infront of the piece/block
 			{
 
@@ -993,7 +978,7 @@ void BaseToBoard()
 				{
 					for (int pie = 1; pie <= 4; pie++)
 					{
-						if (PieceLocation[pie - 1].Blue == 26 || PieceLocation[pie - 1].Green == 26 || PieceLocation[pie - 1].Yellow == 26)
+						if (PieceLocation[pie - 1].Blue == 26 || PieceLocation[pie - 1].Green == 26 || PieceLocation[pie - 1].Yellow == 26)		// if there any piece on X capture
 						{
 							printf("Red player R%d captures, ", i);
 							Reset(26);
@@ -1011,10 +996,10 @@ void BaseToBoard()
 					block[26] = 1;
 				}
 				PieceLocation[i - 1].Red = 26;
-				HeadTail(i);
+				HeadTail(i);                        // find the path to go(head or tail)
 				if (havetomakeablock == 1)
 				{
-					makeBlockX();
+					makeBlockX();					// if any Red piece on x make a blocck
 				}
 				break;
 			}
@@ -1033,7 +1018,7 @@ void BaseToBoard()
 				{
 					for (int pie = 1; pie <= 4; pie++)
 					{
-						if (PieceLocation[pie - 1].Red == 39 || PieceLocation[pie - 1].Yellow == 39 || PieceLocation[pie - 1].Blue == 39)
+						if (PieceLocation[pie - 1].Red == 39 || PieceLocation[pie - 1].Yellow == 39 || PieceLocation[pie - 1].Blue == 39)		// if there any piece on X capture
 						{
 							printf("Green player G%d captures, ", i);
 							Reset(39);
@@ -1051,10 +1036,10 @@ void BaseToBoard()
 					block[39] = 1;
 				}
 				PieceLocation[i - 1].Green = 39;
-				HeadTail(i);
+				HeadTail(i);                        // find the path to go(head or tail)
 				if (havetomakeablock == 1)
 				{
-					makeBlockX();
+					makeBlockX();					// if any Green piece on x make a blocck
 				}
 				break;
 			}
@@ -1073,7 +1058,7 @@ void BaseToBoard()
 				{
 					for (int pie = 1; pie <= 4; pie++)
 					{
-						if (PieceLocation[pie - 1].Blue == 0 || PieceLocation[pie - 1].Red == 0 || PieceLocation[pie - 1].Green == 0)
+						if (PieceLocation[pie - 1].Blue == 0 || PieceLocation[pie - 1].Red == 0 || PieceLocation[pie - 1].Green == 0)   // if there any piece on X capture
 						{
 							printf("Yellow player Y%d captures, ", i);
 							Reset(0);
@@ -1091,10 +1076,10 @@ void BaseToBoard()
 					block[0] = 1;
 				}
 				PieceLocation[i - 1].Yellow = 0;
-				HeadTail(i);
+				HeadTail(i);                        // find the path to go(head or tail)
 				if (havetomakeablock == 1)
 				{
-					makeBlockX();
+					makeBlockX();					// if any Yellow piece on x make a blocck
 				}
 				break;
 			}
@@ -1113,7 +1098,7 @@ void BaseToBoard()
 				{
 					for (int pie = 1; pie <= 4; pie++)
 					{
-						if (PieceLocation[pie - 1].Yellow == 13 || PieceLocation[pie - 1].Red == 13 || PieceLocation[pie - 1].Green == 13)
+						if (PieceLocation[pie - 1].Yellow == 13 || PieceLocation[pie - 1].Red == 13 || PieceLocation[pie - 1].Green == 13)		// if there any piece on X capture
 						{
 							printf("Blue player B%d captures, ", i);
 							Reset(13);
@@ -1131,10 +1116,10 @@ void BaseToBoard()
 					block[13] = 1;
 				}
 				PieceLocation[i - 1].Blue = 13;
-				HeadTail(i);
+				HeadTail(i);                        // find the path to go(head or tail)
 				if (havetomakeablock == 1)
 				{
-					makeBlockX();
+					makeBlockX();					// if any Blue piece on x make a blocck
 				}
 				break;
 			}
@@ -1173,20 +1158,13 @@ void Capture(int piece, int roll)
 		move = roll / block[location];
 	}
 	int newlocation = 0;
-	int newlocationplus = location + move;
-	int newlocationmin = location - move;
-	if (newlocationplus > 51)
-	{
-		newlocationplus -= 52;
-	}
-	else if (newlocationmin < 0)
-	{
-		newlocationmin += 52;
-	}
+	int newlocationplus = (location + move) % 52;
+	int newlocationmin = (location - move + 52) % 52;
+
 	switch (Player)
 	{
 	case 1:
-		printf("Red ");
+		printf("Red ");																			// Red player capture
 		for (int p = 1; p <= 4; p++)
 		{ 
 			if (block[location] > 1 && BlockPath[p - 1].Red == 0)    
@@ -1228,7 +1206,7 @@ void Capture(int piece, int roll)
 		}
 		printf("piece lands on square L%d and captures ", newlocation);
 		break;
-	case 2:
+	case 2:																						// Green player capture
 		printf("Green ");
 		for (int p = 1; p <= 4; p++)
 		{
@@ -1271,7 +1249,7 @@ void Capture(int piece, int roll)
 		}
 		printf("piece lands on square L%d and captures ", newlocation);
 		break;
-	case 3:
+	case 3:																					// yellow player capture
 		printf("Yellow ");
 		for (int p = 1; p <= 4; p++)
 		{
@@ -1314,7 +1292,7 @@ void Capture(int piece, int roll)
 		}
 		printf("piece lands on square L%d and captures ", newlocation);
 		break;
-	case 4:
+	case 4:																								// blue player capture
 		printf("Blue ");
 		for (int p = 1; p <= 4; p++)
 		{
@@ -2396,7 +2374,7 @@ void summary()
 	{
 		if (PieceLocation[i - 1].Red >= 0)
 		{
-			printf("Red R%d piece location %d.\n", i, PieceLocation[i - 1].Red);
+			printf("Red R%d piece location L%d.\n", i, PieceLocation[i - 1].Red);
 			printf("Red R%d piece captured %d pieces.\n", i, captured[i - 1].Red);
 		}
 	}
@@ -2405,7 +2383,7 @@ void summary()
 	{
 		if (PieceLocation[i - 1].Green >= 0)
 		{
-			printf("Green G%d piece location %d.\n", i, PieceLocation[i - 1].Green);
+			printf("Green G%d piece location L%d.\n", i, PieceLocation[i - 1].Green);
 			printf("Green G%d piece captured %d pieces.\n", i, captured[i - 1].Green);
 		}
 	}
@@ -2414,7 +2392,7 @@ void summary()
 	{
 		if (PieceLocation[i - 1].Yellow >= 0)
 		{
-			printf("Yellow Y%d piece location %d.\n", i, PieceLocation[i - 1].Yellow);
+			printf("Yellow Y%d piece location L%d.\n", i, PieceLocation[i - 1].Yellow);
 			printf("Yellow Y%d piece captured %d pieces.\n", i, captured[i - 1].Yellow);
 		}
 	}
@@ -2423,7 +2401,7 @@ void summary()
 	{
 		if (PieceLocation[i - 1].Blue >= 0)
 		{
-			printf("Blue B%d piece location %d.\n", i, PieceLocation[i - 1].Blue);
+			printf("Blue B%d piece location L%d.\n", i, PieceLocation[i - 1].Blue);
 			printf("Blue B%d piece captured %d pieces.\n", i, captured[i - 1].Blue);
 		}
 	}
@@ -2552,160 +2530,105 @@ int piecepath(int location)
 
 int enterHomeStraight(int roll)
 {
-	int returnval = 0, currentLocation;
-	for (int piece = 1; piece <= 4; piece++)
-	{
-		int homeEntrance;
-		int *pieceLocation, *capturedCount, *blockPath, *singlePath, *homePosition, *gothome;
+    int approachCell = -1;
+    int homeEntrance = -1;
 
-		switch (Player)																								// get information of the piece
-		{
-		case 1:																										 // Red
-			currentLocation = PieceLocation[piece - 1].Red;
-			homeEntrance = 24;
-			pieceLocation = &PieceLocation[piece - 1].Red;
-			capturedCount = &captured[piece - 1].Red;
-			blockPath = &BlockPath[piece - 1].Red;
-			singlePath = &path[piece - 1].Red;
-			homePosition = &Home[piece - 1].Red;
-			gothome = &GotHome.Red;
-			break;
-		case 2: 																									// Green
-			currentLocation = PieceLocation[piece - 1].Green;
-			homeEntrance = 37;
-			pieceLocation = &PieceLocation[piece - 1].Green;
-			capturedCount = &captured[piece - 1].Green;
-			blockPath = &BlockPath[piece - 1].Green;
-			singlePath = &path[piece - 1].Green;
-			homePosition = &Home[piece - 1].Green;
-			gothome = &GotHome.Green;
-			break;
-		case 3:																										 // Yellow
-			currentLocation = PieceLocation[piece - 1].Yellow;
-			homeEntrance = 50;
-			pieceLocation = &PieceLocation[piece - 1].Yellow;
-			capturedCount = &captured[piece - 1].Yellow;
-			blockPath = &BlockPath[piece - 1].Yellow;
-			singlePath = &path[piece - 1].Yellow;
-			homePosition = &Home[piece - 1].Yellow;
-			gothome = &GotHome.Yellow;
-			break;
-		case 4: 																									// Blue
-			currentLocation = PieceLocation[piece - 1].Blue;
-			homeEntrance = 11;
-			pieceLocation = &PieceLocation[piece - 1].Blue;
-			capturedCount = &captured[piece - 1].Blue;
-			blockPath = &BlockPath[piece - 1].Blue;
-			singlePath = &path[piece - 1].Blue;
-			homePosition = &Home[piece - 1].Blue;
-			gothome = &GotHome.Blue;
-			break;
-		}
+   																 // Determine the approach cell and home entrance based on the current player
+    switch (Player)
+    {
+    case 1:							 // Red
+        approachCell = 25;
+        homeEntrance = 26;
+        break;
+    case 2:							 // Green
+        approachCell = 38;
+        homeEntrance = 39;
+        break;
+    case 3:						 // Yellow
+        approachCell = 51;
+        homeEntrance = 0;
+        break;
+    case 4: 					// Blue
+        approachCell = 12;
+        homeEntrance = 13;
+        break;
+    }
 
-		if (*capturedCount < 1 || *pieceLocation < 0)
-			continue;
+   																			 // Check all pieces for the current player
+    for (int currentPiece = 0; currentPiece < 4; currentPiece++)
+    {
+        int currentLocation = -1;
+        int hasCaptured = 0;
 
-		int stepsToMove = roll / block[currentLocation];
-		int canEnter = 0;
+       																			 // Get the current location and capture status for the piece
+        switch (Player)
+        {
+        case 1:													 // Red
+            currentLocation = PieceLocation[currentPiece].Red;
+            hasCaptured = captured[currentPiece].Red > 0;
+            break;
+        case 2:													 // Green
+            currentLocation = PieceLocation[currentPiece].Green;
+            hasCaptured = captured[currentPiece].Green > 0;
+            break;
+        case 3:														// Yellow
+            currentLocation = PieceLocation[currentPiece].Yellow;
+            hasCaptured = captured[currentPiece].Yellow > 0;
+            break;
+        case 4: 													// Blue
+            currentLocation = PieceLocation[currentPiece].Blue;
+            hasCaptured = captured[currentPiece].Blue > 0;
+            break;
+        }
 
-		if (*singlePath == 0 && *blockPath == -1)
-		{ 																											// Clockwise single piece movement
-			for (int i = 1; i <= roll; i++)
-			{
-				int nextLocation = (currentLocation + i) % 52;
-				if (block[nextLocation] > 1 && nextLocation != homeEntrance)
-				{
-					stepsToMove = i - 1;
-					break;
-				}
-			}
-			canEnter = ((currentLocation + stepsToMove) % 52 >= homeEntrance);
-		}
-		else if (*blockPath == 0)
-		{ 																											// Clockwise block movement
-			for (int i = 1; i <= stepsToMove; i++)
-			{
-				int nextLocation = (currentLocation + i) % 52;
-				if (block[nextLocation] > block[currentLocation] && nextLocation != homeEntrance)
-				{
-					stepsToMove = i - 1;
-					break;
-				}
-			}
-			canEnter = ((currentLocation + stepsToMove) % 52 >= homeEntrance);
-		}
-		else if (*singlePath == 1 && *blockPath == -1)
-		{ 																											// Counterclockwise single piece movement
-			for (int i = 1; i <= roll; i++)
-			{
-				int nextLocation = (currentLocation - i + 52) % 52;
-				if (block[nextLocation] > 1 && nextLocation != homeEntrance)
-				{
-					stepsToMove = i - 1;
-					break;
-				}
-			}
-			int distanceFromHome = (homeEntrance - currentLocation + 52) % 52;
-			canEnter = (distanceFromHome <= stepsToMove);
-		}
-		else if (*blockPath == 1)
-		{ 																											// Counterclockwise block movement
-			for (int i = 1; i <= stepsToMove; i++)
-			{
-				int nextLocation = (currentLocation - i + 52) % 52;
-				if (block[nextLocation] > block[currentLocation] && nextLocation != homeEntrance)
-				{
-					stepsToMove = i - 1;
-					break;
-				}
-			}
-			int distanceFromHome = (homeEntrance - currentLocation + 52) % 52;
-			canEnter = (distanceFromHome <= stepsToMove);
-		}
+        if (!hasCaptured)
+        {
+            continue; 											// This piece hasn't captured, move to the next piece
+        }
 
-		if (canEnter)
-		{
-			int stepsIntoHomeStraight;
-			if (*singlePath == 0 && *blockPath == -1)
-			{
-				stepsIntoHomeStraight = ((currentLocation + stepsToMove) % 52) - homeEntrance + 1;
-			}
-			else if (*blockPath == 0)
-			{
-				stepsIntoHomeStraight = ((currentLocation + stepsToMove) % 52) - homeEntrance + 1;
-			}
-			else if (*singlePath == 1 && *blockPath == -1)
-			{
-				stepsIntoHomeStraight = stepsToMove - ((homeEntrance - currentLocation + 52) % 52) + 1;
-			}
-			else
-			{
-				stepsIntoHomeStraight = stepsToMove - ((homeEntrance - currentLocation + 52) % 52) + 1;
-			}
+      															  // Check if the piece is at or past the approach cell
+        int distanceToHome = 0;
+        if (currentLocation == approachCell)
+        {
+            distanceToHome = 6; 									// 5 home straight cells + 1 to reach 'Home'
+        }
+        else if (currentLocation > approachCell && currentLocation < homeEntrance)
+        {
+            distanceToHome = homeEntrance - currentLocation;
+        }
+        else
+        {
+            continue; 												// This piece is not at or past the approach cell, move to the next piece
+        }
 
-			*homePosition = (stepsIntoHomeStraight > 6) ? 6 : stepsIntoHomeStraight;
-			*pieceLocation = -20;																					 // Indicate that the piece is in home straight
+       																 // Check if the roll is exact to enter home
+        if (roll == distanceToHome)
+        {
+          															  // Move the piece to home
+            switch (Player)
+            {
+            case 1:
+                PieceLocation[currentPiece].Red = -2; // Assuming -2 represents 'Home'
+                GotHome.Red++;
+                break;
+            case 2:
+                PieceLocation[currentPiece].Green = -2;
+                GotHome.Green++;
+                break;
+            case 3:
+                PieceLocation[currentPiece].Yellow = -2;
+                GotHome.Yellow++;
+                break;
+            case 4:
+                PieceLocation[currentPiece].Blue = -2;
+                GotHome.Blue++;
+                break;
+            }
 
-			if (block[currentLocation] > 1)
-			{
-				*blockPath = 0; 																					// Reset block path as the piece is no longer part of a block
-			}
+            printf("%c%d has entered Home!\n", "RGYB"[Player - 1], currentPiece + 1);
+            return 1; 
+        }
+    }
 
-			PlayerCol(Player);
-			printf(" piece %d enters the home straight and moves to position %d\n", piece, *homePosition);
-
-			if (*homePosition == 6)
-			{
-				printf("Player %d's piece %d has reached home!\n", Player, piece);
-				*homePosition = -1; 																					// Remove from home straight and get to home
-				(*gothome)++;
-			}
-			returnval = 1; 
-		}
-	}
-	if (returnval)
-	{
-		block[currentLocation] = 0;
-	}
-	return returnval;
+    return 0;
 }

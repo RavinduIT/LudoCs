@@ -8,33 +8,29 @@ int main()
 {
 	int Game = 1, round = 1;
 	srand(time(0));
-	setbuf(stdout, 0);
-	SetValues(); // set values to starting point
+	SetValues();										 // set values to starting point
 	intro();
-	ChooseFirstPlayer();
+	ChooseFirstPlayer();								// choose first player
 	printf("\n");
 	int startPlayer = Player;
 	while (Game) {
 		if(startPlayer == Player) {
-			printf("\n\t----Round %d---- \n", round);
+			printf("\n\t----Round %d---- \n", round);    // printf the round
 			round++;
 		}
-		SixInRow = 0;
-		if (Player > 4)
-		{
-			Player = 1;
-		}
-		int CurrentRoll = Roll();
+		SixInRow = 0;									
+		if (Player > 4) Player = 1;
+		int CurrentRoll = Roll();                       // roll the dice
 		PlayerCol(Player);
 		printf(" player rolled %d.\n", CurrentRoll);
-		AI(CurrentRoll);
+		AI(CurrentRoll);   								// player AI work according to the rolled dice
 
 		Player++;
 		if (startPlayer == Player) {
 			printf("\n");
-			summary();
-		}
-		if (GotHome.Red == 4 || GotHome.Green == 4 || GotHome.Yellow == 4 || GotHome.Blue == 4)
+			summary();                                  // get a summary end of the round
+	}
+		if (GotHome.Red == 4 || GotHome.Green == 4 || GotHome.Yellow == 4 || GotHome.Blue == 4)   // check if theres any player who has reached home. if yes end loop
 		{
 			Game = 0;
 		}

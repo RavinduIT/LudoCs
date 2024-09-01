@@ -9,7 +9,7 @@ struct colour
 	int Blue;
 };
 
-extern struct colour BasePiece;
+extern struct colour BasePiece;  
 extern struct colour PieceLocation[4];
 extern struct colour BasePiece;
 extern struct colour path[4];
