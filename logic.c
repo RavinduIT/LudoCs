@@ -142,7 +142,7 @@ int Move(int location, int roll)
 			{
 				otherblock += 52;
 			}
-			if (block[otherblock] > block[location]) // check if there are any block infront of the piece/block
+			if (block[otherblock] > block[location])																	// check if there are any block infront of the piece/block
 			{
 
 				hadablock = 1;
@@ -558,11 +558,11 @@ int Move(int location, int roll)
 			}
 			if (thepath == 0)
 			{
-				otherblock++;
+				otherblock--;
 			}
 			else
 			{
-				otherblock--;
+				otherblock++;
 			}
 		}
 		if (hadablock == 0)
@@ -1363,7 +1363,7 @@ void Capture(int piece, int roll)
 	Reset(newlocation);
 	Move(location, roll);
 }
-void Reset(int location)
+void Reset(int newlocation)
 {
 	int Basepiece = 0;
 	int capturedplayer = 0;
@@ -1374,7 +1374,7 @@ void Reset(int location)
 			switch (r)
 			{
 			case 1:
-				if (PieceLocation[s - 1].Red == location)
+				if (PieceLocation[s - 1].Red == newlocation)
 				{
 					PieceLocation[s - 1].Red = -10;
 					captured[s - 1].Red = 0;
@@ -1384,11 +1384,11 @@ void Reset(int location)
 					printf("R%d, ", s);
 					Basepiece = BasePiece.Red;
 					capturedplayer = 1;
-					block[location] = 0;
+					block[newlocation] = 0;
 				}
 				break;
 			case 2:
-				if (PieceLocation[s - 1].Green == location)
+				if (PieceLocation[s - 1].Green == newlocation)
 				{
 					PieceLocation[s - 1].Green = -10;
 					captured[s - 1].Green = 0;
@@ -1398,11 +1398,11 @@ void Reset(int location)
 					printf("G%d, ", s);
 					Basepiece = BasePiece.Green;
 					capturedplayer = 2;
-					block[location] = 0;
+					block[newlocation] = 0;
 				}
 				break;
 			case 3:
-				if (PieceLocation[s - 1].Yellow == location)
+				if (PieceLocation[s - 1].Yellow == newlocation)
 				{
 					PieceLocation[s - 1].Yellow = -10;
 					captured[s - 1].Yellow = 0;
@@ -1412,11 +1412,11 @@ void Reset(int location)
 					printf("Y%d, ", s);
 					Basepiece = BasePiece.Yellow;
 					capturedplayer = 3;
-					block[location] = 0;
+					block[newlocation] = 0;
 				}
 				break;
 			case 4:
-				if (PieceLocation[s - 1].Blue == location)
+				if (PieceLocation[s - 1].Blue == newlocation)
 				{
 					PieceLocation[s - 1].Blue = -10;
 					captured[s - 1].Blue = 0;
@@ -1426,7 +1426,7 @@ void Reset(int location)
 					printf("B%d, ", s);
 					Basepiece = BasePiece.Blue;
 					capturedplayer = 4;
-					block[location] = 0;
+					block[newlocation] = 0;
 				}
 				break;
 			}
@@ -1459,7 +1459,7 @@ void AI(int roll)
 			int cancap = CanCapture(roll);
 			if (cancap > 0)
 			{
-				// Red capture if can
+				// Red capture if can																					// Red prioratize capture
 				Capture(cancap, roll);
 				roll = Roll();
 				PlayerCol(Player);
@@ -1469,7 +1469,7 @@ void AI(int roll)
 			}
 		}
 		if (roll == 6 && BasePiece.Red > 0)
-		{ // Red move a piece base to board
+		{																												// Red move a piece base to board
 			BaseToBoard();
 			roll = Roll();
 			PlayerCol(Player);
@@ -1483,7 +1483,7 @@ void AI(int roll)
 			int block_piece = CanMakeBlock(roll);
 			int PossibleMove = 0;
 			if (cancap > 0)
-			{ // Red capture if can
+			{                                                                                                           // Red capture if can
 				Capture(cancap, roll);
 				roll = Roll();
 				PlayerCol(Player);
@@ -1497,7 +1497,7 @@ void AI(int roll)
 				{
 					if (enterHomeStraight(roll) == 0)
 					{
-						Move(PieceLocation[y - 1].Red, roll);
+						Move(PieceLocation[y - 1].Red, roll);													// Red pieces move and avoid making blocks
 						PossibleMove = 1;
 						break;
 					}
@@ -1505,7 +1505,7 @@ void AI(int roll)
 			}
 			if (PossibleMove == 0 && block_piece > 0)
 			{
-				MakeABlock(block_piece, roll);
+				MakeABlock(block_piece, roll);																			// Red if any piece can move make a block
 				break;
 			}
 			if (roll == 6)
@@ -1527,14 +1527,14 @@ void AI(int roll)
 			block_piece = CanMakeBlock(roll);
 		}
 		if (roll == 6 && block_piece > 0 && BasePiece.Green < 4)
-		{
+		{																												// Greeb prioratize making blocks
 			MakeABlock(block_piece, roll);
 			roll = Roll();
 			PlayerCol(Player);
 			printf(" player rolled %d.\n", roll);
 			AI(roll);
 		}
-		else if (roll == 6 && BasePiece.Green > 0)
+		else if (roll == 6 && BasePiece.Green > 0)																		//Greeb get a piece from base
 		{
 			BaseToBoard();
 			roll = Roll();
@@ -1554,7 +1554,7 @@ void AI(int roll)
 			}
 			if (thepiececancap > 0)
 			{
-				Capture(thepiececancap, roll);
+				Capture(thepiececancap, roll);																		// Green capture if can
 				roll = Roll();
 				PlayerCol(Player);
 				printf(" player rolled %d.\n", roll);
@@ -1585,6 +1585,9 @@ void AI(int roll)
 				if (enterHomeStraight(roll) == 0)
 				{
 					isitblocked = Move(PieceLocation[piecehavetomove - 1].Green, roll);
+					if(isitblocked == 10 ) {                                                                            // Green break block if it blocked by another
+						BreakBlock();
+					}
 					if (roll == 6)
 					{
 						roll = Roll();
@@ -1599,7 +1602,7 @@ void AI(int roll)
 		break;
 	}
 	case 3:
-		if (roll == 6 && BasePiece.Yellow > 0)
+		if (roll == 6 && BasePiece.Yellow > 0)																			// Yellow get a piece from base
 		{
 			BaseToBoard();
 			roll = Roll();
@@ -1611,7 +1614,7 @@ void AI(int roll)
 		{
 			int thepiece = 0;
 
-			for (int closetohome = 1; closetohome <= 4; closetohome++)
+			for (int closetohome = 1; closetohome <= 4; closetohome++)													// Yellow select a piece closer to home.
 			{
 				int hometolocation = 55;
 				if (path[closetohome - 1].Yellow == 0)
@@ -1641,14 +1644,14 @@ void AI(int roll)
 				printf(" player rolled %d.\n", roll);
 				AI(roll);
 			}
-			else if (theblockpiece > 0 && Piecelocation(3, theblockpiece) == Piecelocation(3, thepiece))
+			else if (theblockpiece > 0 && Piecelocation(3, theblockpiece) == Piecelocation(3, thepiece))  // Yellow Makae a blcok if can
 			{
 				MakeABlock(theblockpiece, roll);
 				break;
 			}
 			else if (thepiece > 0)
 			{
-				if (enterHomeStraight(roll) == 0)
+				if (enterHomeStraight(roll) == 0)																		// Yellow move if cant got to home straight
 				{
 					Move(PieceLocation[thepiece - 1].Yellow, roll);
 					if (roll == 6)
@@ -1668,7 +1671,7 @@ void AI(int roll)
 		if (roll == 6 && BasePiece.Blue > 0)
 		{
 			BaseToBoard();
-			roll = Roll();
+			roll = Roll();																								// Blue get a piece from base
 			PlayerCol(Player);
 			printf(" player rolled %d.\n", roll);
 			AI(roll);
@@ -1679,12 +1682,9 @@ void AI(int roll)
 			{
 				if (PieceLocation[bluepiece - 1].Blue >= 0)
 				{
-
-					// mystery cell scene ek
-
 					int theblockpiece = CanMakeBlock(roll);
 					int cancapture = CanCapture(roll);
-					if (cancapture > 0 && Piecelocation(4, bluepiece) == Piecelocation(4, cancapture))
+					if (cancapture > 0 && Piecelocation(4, bluepiece) == Piecelocation(4, cancapture))   // Bluue capture if can
 					{
 						Capture(cancapture, roll);
 						roll = Roll();
@@ -1693,7 +1693,7 @@ void AI(int roll)
 						AI(roll);
 						break;
 					}
-					if (theblockpiece > 0 && Piecelocation(4, bluepiece) == Piecelocation(4, cancapture))
+					if (theblockpiece > 0 && Piecelocation(4, bluepiece) == Piecelocation(4, cancapture))		// Blue make a block if can
 					{
 						MakeABlock(theblockpiece, roll);
 						if (roll == 6)
@@ -1705,7 +1705,7 @@ void AI(int roll)
 						}
 						break;
 					}
-					if (enterHomeStraight(roll) == 0)
+					if (enterHomeStraight(roll) == 0)																	// Blue if cant enter home staight move a piece
 					{
 						Move(PieceLocation[bluepiece - 1].Blue, roll);
 						if (roll == 6)
